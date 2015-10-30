@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="360" height="16" tilewidth="16" tileheight="16" nextobjectid="22">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" spacing="2" tilecount="810">
+  <image source="tileset.png" width="485" height="546"/>
+ </tileset>
+ <layer name="background" width="360" height="16" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAMA6BORP1brYmdkNBLqqqqqqqqqqqqqqqqqqqqqqqqqqqqqurbATs07xA=
+  </data>
+ </layer>
+ <layer name="graphics" width="360" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzt1DsKgDAQBcDcxOuqeGU/sbCxWCQSI2QGXvny2WJTAgAAAAAAAACgd2vOlrO3fggAAAAAAAAQWj7qv70HoDf2M8A/2c8AbQxBTvYzQB1jzlQpl1b96Mwnf58LZnXvAJQ6ACO6MoY=
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="1" x="696" y="-184"/>
+  <object id="8" x="400" y="240" width="224" height="16"/>
+  <object id="9" x="0" y="240" width="368" height="16"/>
+  <object id="10" x="656" y="240" width="304" height="16"/>
+  <object id="12" x="1008" y="240" width="144" height="16"/>
+ </objectgroup>
+</map>
