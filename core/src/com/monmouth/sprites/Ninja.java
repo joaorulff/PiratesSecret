@@ -13,7 +13,7 @@ import com.monmouth.screens.PlayScreen;
  */
 public class Ninja extends Sprite{
 
-    public enum State {RUNNING, IDLE};
+    public enum State {RUNNING, IDLE, JUMPING};
     public State currentState;
     public State previousState;
 
@@ -48,12 +48,14 @@ public class Ninja extends Sprite{
         setBounds(0,0, 35/PirateGame.PPM, 35/PirateGame.PPM);
         setRegion(idleNinja);
 
+
         //Animation
         Array<TextureRegion> runningAnimationFrames = new Array<TextureRegion>();
-        runningAnimationFrames.add(new TextureRegion(getTexture(), 0, 0, 330, 425));
-        runningAnimationFrames.add(new TextureRegion(getTexture(), 350, 0, 330, 425));
-        //runningAnimationFrames.add(new TextureRegion(getTexture(), 670, 0, 330, 425));
-
+        runningAnimationFrames.add(new TextureRegion(getTexture(), 0, 0, 340, 425));
+        runningAnimationFrames.add(new TextureRegion(getTexture(), 340, 0, 340, 425));
+        //runningAnimationFrames.add(new TextureRegion(getTexture(), 660, 0, 330, 425));
+        //runningAnimationFrames.add(new TextureRegion(getTexture(), 990, 0, 330, 425));
+        //runningAnimationFrames.add(new TextureRegion(getTexture(), 1320, 0, 330, 425));
         ninjaRunning = new Animation(0.1f, runningAnimationFrames);
         runningAnimationFrames.clear();
         //End Animation
@@ -93,11 +95,13 @@ public class Ninja extends Sprite{
 
     //Implement the jumping animation
     public State getState(){
-        if(ninjaBody.getLinearVelocity().x > 0){
-            return State.RUNNING;
-        }else{
+        if (ninjaBody.getLinearVelocity().y != 0){
             return State.IDLE;
         }
+        if(ninjaBody.getLinearVelocity().x > 0){
+            return State.RUNNING;
+        }
+        return State.IDLE;
     }
 
     public void defineNinja(){
@@ -115,5 +119,7 @@ public class Ninja extends Sprite{
 
         ninjaFixtureDef.shape = ninjaShape;
         ninjaBody.createFixture(ninjaFixtureDef);
+
+        
     }
 }

@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.monmouth.box2Dtool.Box2DCreator;
+import com.monmouth.box2Dtool.WorldContactListener;
 import com.monmouth.game.PirateGame;
 import com.monmouth.scenes.HUD;
 import com.monmouth.sprites.Ninja;
@@ -95,6 +96,8 @@ public class PlayScreen implements Screen {
 
         this.ninja = new Ninja(world, this);
 
+        //Colision Handle
+        this.world.setContactListener(new WorldContactListener());
     }
 
     @Override
@@ -130,9 +133,10 @@ public class PlayScreen implements Screen {
             this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0.05f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
         }
 
+        //Throwing stars
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
-            Star starThrown = new Star(this.world, this, this.ninja.getX());
-            starThrown.starBody.applyLinearImpulse(new Vector2(0.05f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
+            this.star = new Star(this.world, this, this.ninja.getX());
+            this.star.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
         }
 
     }
@@ -155,6 +159,7 @@ public class PlayScreen implements Screen {
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
         ninja.draw(pirateGame.batch);
+        //star.draw(pirateGame.batch);
         pirateGame.batch.end();
 
 

@@ -20,13 +20,13 @@ public class Star extends Sprite{
 
         this.mainWorld = world;
 
-        this.defineStar((int)x);
+        this.defineStar(x);
 
     }
 
     public void defineStar(float x){
         BodyDef starBodyDef = new BodyDef();
-        starBodyDef.position.x = x/PirateGame.PPM;
+        starBodyDef.position.x = x;
         starBodyDef.position.y = 5;
 
         //starBodyDef.position.set(x, 50/ PirateGame.PPM);
