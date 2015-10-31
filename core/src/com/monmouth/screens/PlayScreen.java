@@ -60,7 +60,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(PirateGame pirateGame) {
 
-        atlas = new TextureAtlas("ninjaTest.txt");
+        atlas = new TextureAtlas("coolNinja.txt");
 
         this.pirateGame = pirateGame;
 
@@ -119,7 +119,7 @@ public class PlayScreen implements Screen {
     public void handleInput(float deltaTime){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
-            this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 2f), this.ninja.ninjaBody.getWorldCenter(), true);
+            this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 4f), this.ninja.ninjaBody.getWorldCenter(), true);
         }
 
         if(this.ninja.ninjaBody.getLinearVelocity().x <= 1) {
