@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="7">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="14">
  <tileset firstgid="1" name="tileset_gutter" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="924">
   <image source="tileset_gutter.png" width="594" height="504"/>
  </tileset>
@@ -10,12 +10,17 @@
  </layer>
  <layer name="graphics" width="240" height="13">
   <data encoding="base64" compression="zlib">
-   eJztzcEJAAAMAjGn79zdQfopJHBPMQEAAAAAAAAAAAAA+GGK2u3lN5AsNkQT5Q==
+   eJzt07EJACAMRcFM7yjOaW8hmCgi3MEvQ6oXAQAAAAAAAABrvXA3D9hXaanSL/CWfuFf+oW7WmLZ25O/gYgBD7Me6w==
   </data>
  </layer>
  <objectgroup name="ground">
   <object id="1" x="0" y="192" width="208" height="16"/>
   <object id="2" x="240" y="192" width="192" height="16"/>
   <object id="6" x="496" y="192" width="208" height="16"/>
+  <object id="8" x="128" y="144" width="80" height="16"/>
+  <object id="10" x="368" y="128" width="16" height="64"/>
+  <object id="11" x="592" y="192" width="16"/>
+  <object id="12" x="608" y="128" width="64" height="16"/>
+  <object id="13" x="592" y="128" width="16" height="64"/>
  </objectgroup>
 </map>

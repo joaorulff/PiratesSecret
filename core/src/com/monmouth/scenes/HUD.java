@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.monmouth.game.PirateGame;
@@ -15,7 +16,7 @@ import com.monmouth.game.PirateGame;
 /**
  * Created by joaolucasrulffdacosta on 10/29/15.
  */
-public class HUD {
+public class HUD implements Disposable{
 
 
     public Stage stage;
@@ -71,7 +72,8 @@ public class HUD {
     }
 
 
-
-
-
+    @Override
+    public void dispose() {
+        this.stage.dispose();
+    }
 }

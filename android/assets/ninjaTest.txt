@@ -1,0 +1,11 @@
+NinjaTestTex.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Game Boy Advance - Fairly OddParents Clash with the Anti-World - Ninja Timmy
+  rotate: false
+  xy: 2, 2
+  size: 374, 376
+  orig: 374, 376
+  offset: 0, 0
+  index: -1
