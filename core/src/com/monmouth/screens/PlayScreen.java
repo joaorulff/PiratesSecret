@@ -20,6 +20,7 @@ import com.monmouth.box2Dtool.Box2DCreator;
 import com.monmouth.game.PirateGame;
 import com.monmouth.scenes.HUD;
 import com.monmouth.sprites.Ninja;
+import com.monmouth.sprites.Star;
 
 
 public class PlayScreen implements Screen {
@@ -53,6 +54,9 @@ public class PlayScreen implements Screen {
 
     //Ninja
     private Ninja ninja;
+
+    //Star
+    private Star star;
 
 
 
@@ -124,6 +128,11 @@ public class PlayScreen implements Screen {
 
         if(this.ninja.ninjaBody.getLinearVelocity().x <= 1) {
             this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0.05f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
+            Star starThrown = new Star(this.world, this, this.ninja.getX());
+            starThrown.starBody.applyLinearImpulse(new Vector2(0.05f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
         }
 
     }

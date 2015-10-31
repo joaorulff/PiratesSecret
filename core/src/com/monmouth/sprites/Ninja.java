@@ -100,11 +100,6 @@ public class Ninja extends Sprite{
         }
     }
 
-    public TextureRegion getFrames(float deltaTime){
-        //TODO: TextureRegio for Animation
-        return null;
-    }
-
     public void defineNinja(){
 
         BodyDef ninjaBodyDef = new BodyDef();
