@@ -120,6 +120,6 @@ public class Ninja extends Sprite{
         ninjaFixtureDef.shape = ninjaShape;
         ninjaBody.createFixture(ninjaFixtureDef);
 
-        
+
     }
 }
