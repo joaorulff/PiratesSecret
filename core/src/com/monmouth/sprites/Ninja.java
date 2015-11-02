@@ -103,7 +103,12 @@ public class Ninja extends Sprite{
         }
         return State.IDLE;
     }
-
+    public float getNinjaBodyY() {
+        return this.ninjaBody.getPosition().y;
+    }
+    public float getNinjaBodyX() {
+        return this.ninjaBody.getPosition().x;
+    }
     public void defineNinja(){
 
         BodyDef ninjaBodyDef = new BodyDef();
