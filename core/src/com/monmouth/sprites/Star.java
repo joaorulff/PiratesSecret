@@ -26,7 +26,7 @@ public class Star extends Sprite{
 
     public void defineStar(float x){
         BodyDef starBodyDef = new BodyDef();
-        starBodyDef.position.x = x;
+        starBodyDef.position.x = (float) (x + 0.3);
         starBodyDef.position.y = ninja.getNinjaBodyY();
         
         //starBodyDef.position.set(x, 50/ PirateGame.PPM);
@@ -43,7 +43,8 @@ public class Star extends Sprite{
         starFixtureDef.shape = starShape;
         starBody.createFixture(starFixtureDef);
 
-
+        starBody.setLinearVelocity(5,0);
+        starBody.setGravityScale(0);
 
     }
 }
