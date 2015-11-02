@@ -135,8 +135,9 @@ public class PlayScreen implements Screen {
 
         //Throwing stars
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
-            this.star = new Star(this.world, this, this.ninja.getX());
-            this.star.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
+            this.star = new Star(this.world, this, this.ninja.getX(),this.ninja);
+
+            this.star.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldPoint(new Vector2(0,32)),true);
         }
 
     }
@@ -146,7 +147,7 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        update(delta);
+        this.update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

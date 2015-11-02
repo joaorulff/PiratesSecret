@@ -14,12 +14,12 @@ public class Star extends Sprite{
 
     private World mainWorld;
     public Body starBody;
+    private Ninja ninja;
 
-
-    public Star (World world, PlayScreen screen, float x){
+    public Star (World world, PlayScreen screen, float x, Ninja ninja){
 
         this.mainWorld = world;
-
+        this.ninja = ninja;
         this.defineStar(x);
 
     }
@@ -27,8 +27,8 @@ public class Star extends Sprite{
     public void defineStar(float x){
         BodyDef starBodyDef = new BodyDef();
         starBodyDef.position.x = x;
-        starBodyDef.position.y = 5;
-
+        starBodyDef.position.y = ninja.getNinjaBodyY();
+        
         //starBodyDef.position.set(x, 50/ PirateGame.PPM);
 
         starBodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -42,5 +42,8 @@ public class Star extends Sprite{
 
         starFixtureDef.shape = starShape;
         starBody.createFixture(starFixtureDef);
+
+
+
     }
 }
