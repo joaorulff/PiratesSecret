@@ -3,6 +3,7 @@ package com.monmouth.sprites;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.monmouth.game.PirateGame;
 import com.monmouth.screens.PlayScreen;
@@ -15,7 +16,7 @@ public class Star extends Sprite{
     private World mainWorld;
     public Body starBody;
     private Ninja ninja;
-
+    private FixtureDef starFixtureDef;
     public Star (World world, PlayScreen screen, float x, Ninja ninja){
 
         this.mainWorld = world;
@@ -28,14 +29,14 @@ public class Star extends Sprite{
         BodyDef starBodyDef = new BodyDef();
         starBodyDef.position.x = (float) (x + 0.3);
         starBodyDef.position.y = ninja.getNinjaBodyY();
-        
+
         //starBodyDef.position.set(x, 50/ PirateGame.PPM);
 
         starBodyDef.type = BodyDef.BodyType.DynamicBody;
 
         starBody = mainWorld.createBody(starBodyDef);
 
-        FixtureDef starFixtureDef = new FixtureDef();
+        starFixtureDef = new FixtureDef();
         CircleShape starShape = new CircleShape();
         starShape.setRadius(4 / PirateGame.PPM);
 
@@ -46,5 +47,14 @@ public class Star extends Sprite{
         starBody.setLinearVelocity(5,0);
         starBody.setGravityScale(0);
 
+    }
+
+    public void destroy() {
+        this.starBody.getWorld().destroyBody(this.starBody);
+    }
+
+    public float getStarBodyX() {
+
+        return this.starBody.getPosition().x;
     }
 }

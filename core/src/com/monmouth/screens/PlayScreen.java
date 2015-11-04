@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -22,6 +20,10 @@ import com.monmouth.game.PirateGame;
 import com.monmouth.scenes.HUD;
 import com.monmouth.sprites.Ninja;
 import com.monmouth.sprites.Star;
+
+import javax.swing.text.html.HTMLDocument;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class PlayScreen implements Screen {
@@ -57,7 +59,7 @@ public class PlayScreen implements Screen {
     private Ninja ninja;
 
     //Star
-    private Star star;
+    private ArrayList<Star> stars;
 
 
 
@@ -82,19 +84,17 @@ public class PlayScreen implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1/ PirateGame.PPM);
 
 
-
-
-
         //Box2D Variables initialization
         this.world = new World(new Vector2(0,-10), true); //The vector stands for gravity.
+
         this.box2DDR = new Box2DDebugRenderer();
-
-
 
         //Box2DCreator
         new Box2DCreator(this.world, this.map);
 
+        //NINJA AND STAR
         this.ninja = new Ninja(world, this);
+        this.stars = new ArrayList<Star>();
 
         //Colision Handle
         this.world.setContactListener(new WorldContactListener());
@@ -120,6 +120,22 @@ public class PlayScreen implements Screen {
 
         gamecamera.update();
         mapRenderer.setView(gamecamera);
+        /*if(!stars.isEmpty()) {
+            System.out.println(this.stars.get(0).starBody.is);
+
+        }*/
+        //if(!stars.isEmpty())
+        //System.out.println(stars.get(0).starBody.getWorldCenter().x);
+        for(int j=0; j<stars.size(); j++) {
+            System.out.println(stars.get(j).getStarBodyX());
+
+            if (stars.get(j).getStarBodyX() > 6) {
+
+                stars.get(j).destroy();
+                stars.remove(j);
+            }
+        }
+
 
     }
 
@@ -135,10 +151,11 @@ public class PlayScreen implements Screen {
 
         //Throwing stars
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
-            this.star = new Star(this.world, this, this.ninja.getX(),this.ninja);
+
+            stars.add(new Star(this.world, this, this.ninja.getX(), this.ninja));
 
 
-           // this.star.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldPoint(new Vector2(0,32)),true);
+           // this.stars.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldPoint(new Vector2(0,32)),true);
         }
 
     }
@@ -161,7 +178,7 @@ public class PlayScreen implements Screen {
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
         ninja.draw(pirateGame.batch);
-        //star.draw(pirateGame.batch);
+
         pirateGame.batch.end();
 
 
