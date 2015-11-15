@@ -92,8 +92,10 @@ public class PlayScreen implements Screen {
         //Box2DCreator
         new Box2DCreator(this.world, this.map);
 
-        //NINJA AND STAR
+        //Ninja
         this.ninja = new Ninja(world, this);
+
+
         this.stars = new ArrayList<Star>();
 
         //Colision Handle
@@ -115,6 +117,7 @@ public class PlayScreen implements Screen {
         this.world.step(1/60f, 6, 2);
 
         ninja.update(deltaTime);
+        hud.update(deltaTime);
 
         this.gamecamera.position.x = this.ninja.ninjaBody.getPosition().x;
 

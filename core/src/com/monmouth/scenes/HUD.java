@@ -71,6 +71,17 @@ public class HUD implements Disposable{
 
     }
 
+    public void update(float deltaTime){
+
+        timeCounter += deltaTime;
+        if(timeCounter >= 1){
+            worldTimer--;
+            countDownLabel.setText(String.format("%03d", worldTimer));
+            timeCounter = 0;
+        }
+
+    }
+
 
     @Override
     public void dispose() {
