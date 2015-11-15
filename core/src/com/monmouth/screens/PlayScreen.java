@@ -3,6 +3,8 @@ package com.monmouth.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,9 +23,7 @@ import com.monmouth.scenes.HUD;
 import com.monmouth.sprites.Ninja;
 import com.monmouth.sprites.Star;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class PlayScreen implements Screen {
@@ -57,6 +57,9 @@ public class PlayScreen implements Screen {
 
     //Ninja
     private Ninja ninja;
+
+    //Music
+    private Music gameMusic;
 
     //Star
     private ArrayList<Star> stars;
@@ -100,6 +103,12 @@ public class PlayScreen implements Screen {
 
         //Colision Handle
         this.world.setContactListener(new WorldContactListener());
+
+        //Game Music
+        gameMusic = PirateGame.assetManager.get("audio/music/pirateMusic.mp3", Music.class);
+        gameMusic.setLooping(true);
+        gameMusic.play();
+
     }
 
     @Override
@@ -117,7 +126,9 @@ public class PlayScreen implements Screen {
         this.world.step(1/60f, 6, 2);
 
         ninja.update(deltaTime);
-        hud.update(deltaTime);
+
+        hud.updateTime(deltaTime);
+        HUD.updateScore(1);
 
         this.gamecamera.position.x = this.ninja.ninjaBody.getPosition().x;
 
@@ -146,6 +157,9 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
             this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 4f), this.ninja.ninjaBody.getWorldCenter(), true);
+            PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
+
+
         }
 
         if(this.ninja.ninjaBody.getLinearVelocity().x <= 1) {

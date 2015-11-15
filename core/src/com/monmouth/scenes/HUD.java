@@ -25,10 +25,10 @@ public class HUD implements Disposable{
 
     private Integer worldTimer;
     private float timeCounter;
-    private Integer score;
+    private static Integer score;
 
     Label countDownLabel;
-    Label scoreLabel;
+    static Label scoreLabel;
     Label timeLabel;
     Label levelLabel;
     Label worldLabel;
@@ -71,7 +71,7 @@ public class HUD implements Disposable{
 
     }
 
-    public void update(float deltaTime){
+    public void updateTime(float deltaTime){
 
         timeCounter += deltaTime;
         if(timeCounter >= 1){
@@ -81,6 +81,13 @@ public class HUD implements Disposable{
         }
 
     }
+
+    public static void updateScore(int value){
+        score += value;
+        scoreLabel.setText(String.format("%06d", score));
+    }
+
+
 
 
     @Override
