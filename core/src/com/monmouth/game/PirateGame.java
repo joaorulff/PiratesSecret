@@ -41,8 +41,8 @@ public class PirateGame extends Game {
     public void render(){
 
         super.render();
-        assetManager.dispose();
-        batch.dispose();
+        //assetManager.dispose();
+        //batch.dispose();
 
     }
 
