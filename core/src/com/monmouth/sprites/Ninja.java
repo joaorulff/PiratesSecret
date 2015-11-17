@@ -96,7 +96,7 @@ public class Ninja extends Sprite{
 
     //Implement the jumping animation
     public State getState(){
-        if (ninjaBody.getLinearVelocity().x == 0){
+        if (ninjaBody.getLinearVelocity().y != 0){
             return State.IDLE;
         }
         if(ninjaBody.getLinearVelocity().x > 0){
