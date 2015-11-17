@@ -60,7 +60,8 @@ public class Pirate extends Sprite {
     private void definePirate() {
 
         BodyDef pirateBodyDef = new BodyDef();
-        pirateBodyDef.position.set(32 / PirateGame.PPM, 32 / PirateGame.PPM);
+        //pirateBodyDef.position.set(32 / PirateGame.PPM, 32 / PirateGame.PPM);
+        pirateBodyDef.position.set(this.getX(), this.getY());
         pirateBodyDef.type = BodyDef.BodyType.DynamicBody;
 
         this.pirateBody = this.mainWorld.createBody(pirateBodyDef);

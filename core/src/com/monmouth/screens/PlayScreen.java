@@ -117,7 +117,7 @@ public class PlayScreen implements Screen {
         gameMusic.setLooping(true);
         gameMusic.play();
 
-        pirate1 = new Pirate(this, .32f, .32f);
+        pirate1 = new Pirate(this, 2.90f, .32f);
 
 
     }
