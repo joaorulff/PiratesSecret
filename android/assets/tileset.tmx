@@ -5,7 +5,7 @@
  </tileset>
  <layer name="Background" width="500" height="13">
   <data encoding="base64" compression="zlib">
-   eJztziEOAAAIxDDC/3+MwZ5FYbqkftNVAwAAAAAAAAAAAAAAAAAAAAfZ9wsAAAAAAAAAAACkBdBbFlU=
+   eJztziESAAAEADDn/x/yNkVVJWVhfZ0RDQAAAAAAAAAAAAAAAAAAAAe1fF8AAAAAAAAAAABgGwY/GIY=
   </data>
  </layer>
  <layer name="plataform_graph" width="500" height="13">
