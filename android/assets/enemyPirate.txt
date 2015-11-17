@@ -1,0 +1,11 @@
+pirateShrink.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pirateShrink
+  rotate: false
+  xy: 2, 2
+  size: 148, 48
+  orig: 148, 48
+  offset: 0, 0
+  index: -1

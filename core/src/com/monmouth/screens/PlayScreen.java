@@ -24,6 +24,7 @@ import com.monmouth.sprites.Ninja;
 import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
 
+import javax.xml.soap.Text;
 import java.util.ArrayList;
 
 
@@ -33,8 +34,10 @@ public class PlayScreen implements Screen {
 
     private Texture texture;
 
-    //Loading the ninja Sprite
+    //Loading the ninja and pirate Sprite
     private TextureAtlas atlas;
+    private TextureAtlas pirateAtlas;
+
 
     //Box2D Variables
     private World world;
@@ -59,17 +62,23 @@ public class PlayScreen implements Screen {
     //Ninja
     private Ninja ninja;
 
+    //Temporary pirate
+    private Pirate pirate1;
+
     //Music
     private Music gameMusic;
 
     //Star
     private ArrayList<Star> stars;
-    private ArrayList<Pirate> pirates;
+
+    //Pirate
+    //-private ArrayList<Pirate> pirates;
 
 
     public PlayScreen(PirateGame pirateGame) {
 
         atlas = new TextureAtlas("coolNinja.txt");
+        pirateAtlas = new TextureAtlas("enemyPirate.txt");
 
         this.pirateGame = pirateGame;
 
@@ -92,12 +101,12 @@ public class PlayScreen implements Screen {
         this.box2DDR = new Box2DDebugRenderer();
 
         //Box2DCreator
-        new Box2DCreator(this.world, this.map);
+        new Box2DCreator(this);
 
         //Ninja
-        this.ninja = new Ninja(world, this);
+        this.ninja = new Ninja(this);
 
-        this.pirates = new ArrayList<Pirate>();
+        //this.pirates = new ArrayList<Pirate>();
         this.stars = new ArrayList<Star>();
 
         //Colision Handle
@@ -107,6 +116,8 @@ public class PlayScreen implements Screen {
         gameMusic = PirateGame.assetManager.get("audio/music/pirateMusic.mp3", Music.class);
         gameMusic.setLooping(true);
         gameMusic.play();
+
+        pirate1 = new Pirate(this, .32f, .32f);
 
 
     }
@@ -120,18 +131,24 @@ public class PlayScreen implements Screen {
         return this.atlas;
     }
 
+    public TextureAtlas getPirateAtlas(){
+        return this.pirateAtlas;
+    }
+
     public void update(float deltaTime){
+
         this.handleInput(deltaTime);
 
         this.world.step(1/60f, 6, 2);
 
         ninja.update(deltaTime);
+        pirate1.update(deltaTime);
 
         hud.updateTime(deltaTime);
         HUD.updateScore(1);
 
         this.gamecamera.position.x = this.ninja.ninjaBody.getPosition().x;
-        pirates.add(new Pirate(this.world, this, new Vector2(this.gamecamera.position.x, this.ninja.getNinjaBodyY())));
+        //pirates.add(new Pirate(this.world, this, new Vector2(this.gamecamera.position.x, this.ninja.getNinjaBodyY())));
         gamecamera.update();
         mapRenderer.setView(gamecamera);
 
@@ -195,6 +212,7 @@ public class PlayScreen implements Screen {
 
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
+        pirate1.draw(pirateGame.batch);
         ninja.draw(pirateGame.batch);
 
         pirateGame.batch.end();
@@ -212,6 +230,14 @@ public class PlayScreen implements Screen {
 
         gameViewPort.update(width, height);
 
+    }
+
+    public TiledMap getMap(){
+        return map;
+    }
+
+    public World getWorld(){
+        return this.world;
     }
 
     @Override

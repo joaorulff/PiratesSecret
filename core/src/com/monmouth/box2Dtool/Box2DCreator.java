@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.monmouth.game.PirateGame;
+import com.monmouth.screens.PlayScreen;
 
 /**
  * Created by joaolucasrulffdacosta on 10/31/15.
@@ -13,7 +14,10 @@ import com.monmouth.game.PirateGame;
 public class Box2DCreator {
 
 
-    public Box2DCreator(World world, TiledMap map){
+    public Box2DCreator(PlayScreen screen){
+
+        World world = screen.getWorld();
+        TiledMap map = screen.getMap();
 
         //Temp Box2d variables
         BodyDef bodyDef = new BodyDef();

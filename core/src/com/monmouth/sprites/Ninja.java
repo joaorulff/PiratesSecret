@@ -32,10 +32,11 @@ public class Ninja extends Sprite{
     //Time during each state
     private float stateTimer;
 
-    public Ninja(World world, PlayScreen screen){
+    public Ninja(PlayScreen screen){
+
         super(screen.getAtlas().findRegion("Run_"));
 
-        this.mainWorld = world;
+        this.mainWorld = screen.getWorld();
 
         this.currentState = State.IDLE;
         this.previousState = State.IDLE;
@@ -95,7 +96,7 @@ public class Ninja extends Sprite{
 
     //Implement the jumping animation
     public State getState(){
-        if (ninjaBody.getLinearVelocity().y != 0){
+        if (ninjaBody.getLinearVelocity().x == 0){
             return State.IDLE;
         }
         if(ninjaBody.getLinearVelocity().x > 0){
@@ -109,6 +110,7 @@ public class Ninja extends Sprite{
     public float getNinjaBodyX() {
         return this.ninjaBody.getPosition().x;
     }
+
     public void defineNinja() {
 
         BodyDef ninjaBodyDef = new BodyDef();
