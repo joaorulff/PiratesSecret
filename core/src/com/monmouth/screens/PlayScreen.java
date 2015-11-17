@@ -9,18 +9,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
 import com.monmouth.box2Dtool.Box2DCreator;
 import com.monmouth.box2Dtool.WorldContactListener;
 import com.monmouth.game.PirateGame;
 import com.monmouth.scenes.HUD;
 import com.monmouth.sprites.Ninja;
+import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
 
 import java.util.ArrayList;
@@ -63,9 +64,7 @@ public class PlayScreen implements Screen {
 
     //Star
     private ArrayList<Star> stars;
-
-
-
+    private ArrayList<Pirate> pirates;
 
 
     public PlayScreen(PirateGame pirateGame) {
@@ -98,7 +97,7 @@ public class PlayScreen implements Screen {
         //Ninja
         this.ninja = new Ninja(world, this);
 
-
+        this.pirates = new ArrayList<Pirate>();
         this.stars = new ArrayList<Star>();
 
         //Colision Handle
@@ -108,6 +107,7 @@ public class PlayScreen implements Screen {
         gameMusic = PirateGame.assetManager.get("audio/music/pirateMusic.mp3", Music.class);
         gameMusic.setLooping(true);
         gameMusic.play();
+
 
     }
 
@@ -131,9 +131,10 @@ public class PlayScreen implements Screen {
         HUD.updateScore(1);
 
         this.gamecamera.position.x = this.ninja.ninjaBody.getPosition().x;
-
+        pirates.add(new Pirate(this.world, this, new Vector2(this.gamecamera.position.x, this.ninja.getNinjaBodyY())));
         gamecamera.update();
         mapRenderer.setView(gamecamera);
+
         /*if(!stars.isEmpty()) {
             System.out.println(this.stars.get(0).starBody.is);
 
@@ -163,7 +164,7 @@ public class PlayScreen implements Screen {
         }
 
         if(this.ninja.ninjaBody.getLinearVelocity().x <= 1) {
-            this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0.05f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
+            this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0.3125f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
         }
 
         //Throwing stars

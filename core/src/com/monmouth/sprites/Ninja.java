@@ -13,7 +13,7 @@ import com.monmouth.screens.PlayScreen;
  */
 public class Ninja extends Sprite{
 
-    public enum State {RUNNING, IDLE, JUMPING};
+    public enum State {RUNNING, IDLE,  JUMPING};
     public State currentState;
     public State previousState;
 
