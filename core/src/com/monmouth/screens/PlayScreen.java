@@ -30,6 +30,9 @@ import java.util.ArrayList;
 
 public class PlayScreen implements Screen {
 
+    private enum gameState {RUNNING, PAUSED};
+    private gameState currentGameState;
+
     private PirateGame pirateGame;
 
     private Texture texture;
@@ -76,6 +79,8 @@ public class PlayScreen implements Screen {
 
 
     public PlayScreen(PirateGame pirateGame) {
+
+        this.currentGameState = gameState.RUNNING;
 
         atlas = new TextureAtlas("coolNinja.txt");
         pirateAtlas = new TextureAtlas("enemyPirate.txt");
@@ -137,7 +142,7 @@ public class PlayScreen implements Screen {
 
     public void update(float deltaTime){
 
-        this.handleInput(deltaTime);
+
 
         this.world.step(1/60f, 6, 2);
 
@@ -193,6 +198,12 @@ public class PlayScreen implements Screen {
            // this.stars.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldPoint(new Vector2(0,32)),true);
         }
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
+
+            this.currentGameState = (currentGameState == gameState.RUNNING) ? gameState.PAUSED : gameState.RUNNING;
+            System.out.println(this.currentGameState);
+        }
+
     }
 
 
@@ -200,7 +211,11 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
 
+        this.handleInput(delta);
+
+        if(currentGameState != gameState.PAUSED){
         this.update(delta);
+        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

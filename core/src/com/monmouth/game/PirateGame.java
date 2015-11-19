@@ -24,10 +24,9 @@ public class PirateGame extends Game {
     public static final float PPM = 100;
 
 
+
+
     public static AssetManager assetManager;
-
-
-
 
     public void create (){
 
