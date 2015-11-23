@@ -27,8 +27,8 @@ public class StartScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "A - Throw a star\nArrow Key UP - Jump\nP - Pause", 100, 150);
-        game.font.draw(game.batch, "Press 1 to start the game and save ninja from pirates!", 100, 100);
+        game.font.draw(game.batch, "A - Throw a star\n\nArrow Key UP - Jump\n\nP - Pause\n", 100, 150);
+        game.font.draw(game.batch, "\nPress 1 to start the game and save ninja from pirates!", 100, 100);
         game.batch.end();
 
         if (Gdx.input.isKeyPressed(8)) {

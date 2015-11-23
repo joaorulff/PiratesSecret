@@ -1,12 +1,15 @@
 package com.monmouth.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.monmouth.screens.PlayScreen;
 import com.monmouth.screens.StartScreen;
 
@@ -28,10 +31,12 @@ public class PirateGame extends Game {
 
     public static AssetManager assetManager;
 
-    public void create (){
-
+    public void create () {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 12;
+        font = generator.generateFont(parameter);
         batch = new SpriteBatch();
-        font = new BitmapFont();
         assetManager = new AssetManager();
         assetManager.load("audio/music/pirateMusic.mp3", Music.class);
         assetManager.load("audio/sounds/pirateJump.wav", Sound.class);
@@ -43,6 +48,7 @@ public class PirateGame extends Game {
     public void render(){
 
         super.render();
+
         //assetManager.dispose();
         //batch.dispose();
 
