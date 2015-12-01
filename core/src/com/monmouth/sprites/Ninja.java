@@ -114,7 +114,7 @@ public class Ninja extends Sprite{
     public void defineNinja() {
 
         BodyDef ninjaBodyDef = new BodyDef();
-        ninjaBodyDef.position.set(32 / PirateGame.PPM, 32 / PirateGame.PPM);
+        ninjaBodyDef.position.set(50 / PirateGame.PPM, 50 / PirateGame.PPM);
         ninjaBodyDef.type = BodyDef.BodyType.DynamicBody;
 
         ninjaBody = mainWorld.createBody(ninjaBodyDef);
