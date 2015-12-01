@@ -44,7 +44,7 @@ public class PlayScreen implements Screen {
 
     //Box2D Variables
     private World world;
-    private Box2DDebugRenderer box2DDR;
+    //private Box2DDebugRenderer box2DDR;
 
 
     //Camera
@@ -103,7 +103,7 @@ public class PlayScreen implements Screen {
         //Box2D Variables initialization
         this.world = new World(new Vector2(0,-10), true); //The vector stands for gravity.
 
-        this.box2DDR = new Box2DDebugRenderer();
+        //this.box2DDR = new Box2DDebugRenderer();
 
         //Box2DCreator
         new Box2DCreator(this);
@@ -122,7 +122,7 @@ public class PlayScreen implements Screen {
         gameMusic.setLooping(true);
         gameMusic.play();
 
-        pirate1 = new Pirate(this, 2.90f, .32f);
+        pirate1 = new Pirate(this, this.ninja.getNinjaBodyX(), this.ninja.getNinjaBodyY()+3f);
 
 
     }
@@ -223,7 +223,7 @@ public class PlayScreen implements Screen {
         mapRenderer.render();
 
         //Render box2d
-        box2DDR.render(this.world, this.gamecamera.combined);
+        //box2DDR.render(this.world, this.gamecamera.combined);
 
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
@@ -276,7 +276,7 @@ public class PlayScreen implements Screen {
         this.map.dispose();
         this.mapRenderer.dispose();
         this.world.dispose();
-        this.box2DDR.dispose();
+        //this.box2DDR.dispose();
         this.hud.dispose();
 
     }

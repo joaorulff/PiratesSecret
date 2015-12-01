@@ -25,7 +25,7 @@ public class Box2DCreator {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        for(MapObject mapObject : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
+        for(MapObject mapObject : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
 
             Rectangle rect = ((RectangleMapObject)mapObject).getRectangle();
 
