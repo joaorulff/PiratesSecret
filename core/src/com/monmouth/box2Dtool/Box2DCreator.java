@@ -41,7 +41,7 @@ public class Box2DCreator {
 
         }
 
-        for(MapObject mapObject : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
+        /*for(MapObject mapObject : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
 
             Rectangle rect = ((RectangleMapObject)mapObject).getRectangle();
 
@@ -55,7 +55,7 @@ public class Box2DCreator {
             body.createFixture(fdef);
 
 
-        }
+        }*/
 
 
     }
