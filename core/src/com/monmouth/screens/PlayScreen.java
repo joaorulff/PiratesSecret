@@ -185,6 +185,7 @@ public class PlayScreen implements Screen {
 
         }
 
+        //Ninja forward movement
         if(this.ninja.ninjaBody.getLinearVelocity().x <= 1) {
             this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0.3125f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
         }
