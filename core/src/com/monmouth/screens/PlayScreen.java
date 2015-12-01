@@ -89,7 +89,7 @@ public class PlayScreen implements Screen {
 
         //Camera and viewport initialization
         this.gamecamera = new OrthographicCamera();
-        this.gameViewPort = new FitViewport(PirateGame.V_WIDTH / PirateGame.PPM, PirateGame.V_HEIGHT / PirateGame.PPM, gamecamera);
+        this.gameViewPort = new FitViewport(PirateGame.V_WIDTH / PirateGame.PPM*2, PirateGame.V_HEIGHT / PirateGame.PPM*2, gamecamera);
         gamecamera.position.set(gameViewPort.getWorldWidth()/2, gameViewPort.getWorldHeight()/2, 0);
 
         hud = new HUD(pirateGame.batch);
