@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class PlayScreen implements Screen {
 
-    private enum gameState {RUNNING, PAUSED};
+    private enum gameState {RUNNING, PAUSED, JUMPING};
     private gameState currentGameState;
 
     private PirateGame pirateGame;
@@ -157,8 +157,14 @@ public class PlayScreen implements Screen {
         gamecamera.update();
         mapRenderer.setView(gamecamera);
 
+        if(this.ninja.ninjaBody.getLinearVelocity().y == 0 ){
+            this.ninja.
+        }
+
         /*if(!stars.isEmpty()) {
             System.out.println(this.stars.get(0).starBody.is);
+
+
 
         }*/
         //if(!stars.isEmpty())
@@ -177,11 +183,19 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float deltaTime){
+
+
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
-            this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 4f), this.ninja.ninjaBody.getWorldCenter(), true);
-            PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
+            if(this.ninja.getState() != Ninja.State.JUMPING) {
 
+
+                this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 4f), this.ninja.ninjaBody.getWorldCenter(), true);
+                PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
+            }else{
+
+            }
 
         }
 
