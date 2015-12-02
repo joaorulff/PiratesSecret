@@ -1,6 +1,8 @@
 package com.monmouth.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -17,8 +19,10 @@ public class Star extends Sprite{
     public Body starBody;
     private Ninja ninja;
     private FixtureDef starFixtureDef;
+    //private Texture starTexture;
     public Star (World world, PlayScreen screen, float x, Ninja ninja){
-
+        super(new Texture(Gdx.files.internal("ninjastar.png")));
+        this.setSize(100f/PirateGame.PPM,100f/PirateGame.PPM);
         this.mainWorld = world;
         this.ninja = ninja;
         this.defineStar(x);
@@ -54,7 +58,9 @@ public class Star extends Sprite{
     }
 
     public float getStarBodyX() {
-
+        return this.starBody.getPosition().x;
+    }
+    public float getStarBodyY() {
         return this.starBody.getPosition().x;
     }
 }

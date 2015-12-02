@@ -26,6 +26,7 @@ import com.monmouth.sprites.Star;
 
 import javax.xml.soap.Text;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class PlayScreen implements Screen {
@@ -169,7 +170,7 @@ public class PlayScreen implements Screen {
         //System.out.println(stars.get(0).starBody.getWorldCenter().x);
         for(int j=0; j<stars.size(); j++) {
             System.out.println(stars.get(j).getStarBodyX());
-
+            System.out.println(stars.get(j).getTexture());
             if (stars.get(j).getStarBodyX() > 6) {
 
                 stars.get(j).destroy();
@@ -241,6 +242,9 @@ public class PlayScreen implements Screen {
         pirate1.draw(pirateGame.batch);
         ninja.draw(pirateGame.batch);
 
+        for(int i = 0; i<stars.size(); i++) {
+            stars.get(i).draw(pirateGame.batch);
+        }
         pirateGame.batch.end();
 
 
