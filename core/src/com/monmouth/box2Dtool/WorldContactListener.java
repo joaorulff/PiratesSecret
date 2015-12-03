@@ -36,7 +36,7 @@ public class WorldContactListener implements ContactListener{
             System.out.println("star colliding!B");
             starsToBeDeleted.add((Body)contact.getFixtureB().getBody());
         }
-        
+
     }
 
     public Array<Body> getStarsToBeDeleted() {
@@ -46,6 +46,7 @@ public class WorldContactListener implements ContactListener{
     @Override
     public void endContact(Contact contact) {
         Gdx.app.log("End Contact", "");
+
     }
 
     @Override

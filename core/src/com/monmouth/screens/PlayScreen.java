@@ -158,6 +158,7 @@ public class PlayScreen implements Screen {
 
         this.gamecamera.position.x = this.ninja.ninjaBody.getPosition().x;
         //pirates.add(new Pirate(this.world, this, new Vector2(this.gamecamera.position.x, this.ninja.getNinjaBodyY())));
+
         gamecamera.update();
         mapRenderer.setView(gamecamera);
 
@@ -167,6 +168,19 @@ public class PlayScreen implements Screen {
         }
 
         contactListener.getStarsToBeDeleted().clear();
+
+        //FIXING NINJA COLLISION
+        if(this.getNinja().getNinjaBodyY() < 0) {
+            System.out.println("ninja caiu");
+            this.getNinja().ninjaBody.getPosition().x += 1;
+            this.getNinja().ninjaBody.getPosition().y += 5;
+        }
+        if(this.getNinja().getNinjaBodyY() < 0) {
+            System.out.println("ninja caiu");
+            this.getNinja().ninjaBody.getPosition().x += 1;
+            this.getNinja().ninjaBody.getPosition().y += 5;
+        }
+        //System.out.println(ninja.ninjaBody.getPosition().y);
 
     }
 
@@ -272,6 +286,14 @@ public class PlayScreen implements Screen {
     @Override
     public void hide() {
 
+    }
+
+    public Ninja getNinja() {
+        return ninja;
+    }
+
+    public void setNinja(Ninja ninja) {
+        this.ninja = ninja;
     }
 
     @Override
