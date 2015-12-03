@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.*;
 import com.monmouth.box2Dtool.Box2DCreator;
 import com.monmouth.box2Dtool.WorldContactListener;
@@ -24,9 +24,8 @@ import com.monmouth.sprites.Ninja;
 import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
 
-import javax.xml.soap.Text;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedList;
 
 
 public class PlayScreen implements Screen {
@@ -45,13 +44,13 @@ public class PlayScreen implements Screen {
 
     //Box2D Variables
     private World world;
-    //private Box2DDebugRenderer box2DDR;
+    private Box2DDebugRenderer box2DDR;
 
 
     //Camera
     private OrthographicCamera gamecamera;
     private Viewport gameViewPort;
-
+    private WorldContactListener contactListener;
 
     private HUD hud;
 
@@ -77,7 +76,10 @@ public class PlayScreen implements Screen {
 
     //Pirate
     //-private ArrayList<Pirate> pirates;
-
+    public final short CATEGORY_NINJA = 0x0001;  // 0000000000000001 in binary
+    public final short CATEGORY_PIRATE = 0x0002; // 0000000000000010 in binary
+    public final short CATEGORY_STAR = 0x0004; // 0000000000000100 in binary
+    public final short CATEGORY_WORLD = 0x0008; // 0000000000000100 in binary
 
     public PlayScreen(PirateGame pirateGame) {
 
@@ -104,7 +106,7 @@ public class PlayScreen implements Screen {
         //Box2D Variables initialization
         this.world = new World(new Vector2(0,-10), true); //The vector stands for gravity.
 
-        //this.box2DDR = new Box2DDebugRenderer();
+        this.box2DDR = new Box2DDebugRenderer();
 
         //Box2DCreator
         new Box2DCreator(this);
@@ -116,7 +118,8 @@ public class PlayScreen implements Screen {
         this.stars = new ArrayList<Star>();
 
         //Colision Handle
-        this.world.setContactListener(new WorldContactListener());
+        contactListener= new WorldContactListener(this);
+        this.world.setContactListener(contactListener);
 
         //Game Music
         gameMusic = PirateGame.assetManager.get("audio/music/pirateMusic.mp3", Music.class);
@@ -158,26 +161,12 @@ public class PlayScreen implements Screen {
         gamecamera.update();
         mapRenderer.setView(gamecamera);
 
-
-
-        /*if(!stars.isEmpty()) {
-            System.out.println(this.stars.get(0).starBody.is);
-
-
-
-        }*/
-        //if(!stars.isEmpty())
-        //System.out.println(stars.get(0).starBody.getWorldCenter().x);
-        for(int j=0; j<stars.size(); j++) {
-            System.out.println(stars.get(j).getStarBodyX());
-            System.out.println(stars.get(j).getTexture());
-            if (stars.get(j).getStarBodyX() > 6) {
-
-                stars.get(j).destroy();
-                stars.remove(j);
-            }
+        for (Body body : contactListener.getStarsToBeDeleted())
+        {
+            world.destroyBody(body);
         }
 
+        contactListener.getStarsToBeDeleted().clear();
 
     }
 
@@ -235,16 +224,16 @@ public class PlayScreen implements Screen {
         mapRenderer.render();
 
         //Render box2d
-        //box2DDR.render(this.world, this.gamecamera.combined);
+        box2DDR.render(this.world, this.gamecamera.combined);
 
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
         pirate1.draw(pirateGame.batch);
         ninja.draw(pirateGame.batch);
 
-        for(int i = 0; i<stars.size(); i++) {
+        /*for(int i = 0; i<stars.size(); i++) {
             stars.get(i).draw(pirateGame.batch);
-        }
+        }*/
         pirateGame.batch.end();
 
 
@@ -296,5 +285,7 @@ public class PlayScreen implements Screen {
 
     }
 
-
+    public ArrayList<Star> getStars() {
+        return stars;
+    }
 }

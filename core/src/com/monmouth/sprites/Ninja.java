@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.monmouth.game.PirateGame;
 import com.monmouth.screens.PlayScreen;
+import javafx.stage.Screen;
 
 /**
  * Created by joaolucasrulffdacosta on 10/30/15.
@@ -22,7 +23,7 @@ public class Ninja extends Sprite{
     public Body ninjaBody;
 
     private TextureRegion idleNinja;
-
+    private PlayScreen playScreen;
     //Animation
     private Animation ninjaRunning;
 
@@ -40,6 +41,7 @@ public class Ninja extends Sprite{
 
         this.currentState = State.IDLE;
         this.previousState = State.IDLE;
+        this.playScreen = screen;
 
         this.stateTimer = 0;
 
@@ -125,6 +127,8 @@ public class Ninja extends Sprite{
 
 
         ninjaFixtureDef.shape = ninjaShape;
+        ninjaFixtureDef.filter.categoryBits = playScreen.CATEGORY_NINJA;
+        ninjaFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_WORLD|playScreen.CATEGORY_PIRATE);
         ninjaBody.createFixture(ninjaFixtureDef);
 
 

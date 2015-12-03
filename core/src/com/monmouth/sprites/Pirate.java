@@ -30,7 +30,7 @@ public class Pirate extends Sprite {
     public Pirate(PlayScreen screen, float x, float y) {
 
         this.mainWorld = screen.getWorld();
-
+        this.playScreen = screen;
         frames = new Array<TextureRegion>();
 
 
@@ -65,13 +65,16 @@ public class Pirate extends Sprite {
         pirateBodyDef.type = BodyDef.BodyType.DynamicBody;
 
         this.pirateBody = this.mainWorld.createBody(pirateBodyDef);
-
+        this.pirateBody.setUserData(this);
         FixtureDef pirateFixtureDef = new FixtureDef();
         CircleShape pirateShape = new CircleShape();
         pirateShape.setRadius(12 / PirateGame.PPM);
 
 
         pirateFixtureDef.shape = pirateShape;
+        pirateFixtureDef.filter.categoryBits = playScreen.CATEGORY_PIRATE;
+        pirateFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_NINJA|playScreen.CATEGORY_WORLD|playScreen.CATEGORY_STAR);
+
         pirateBody.createFixture(pirateFixtureDef);
     }
 

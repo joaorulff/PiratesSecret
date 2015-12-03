@@ -31,7 +31,8 @@ public class Box2DCreator {
 
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set((rect.getX() + rect.getWidth() / 2)/ PirateGame.PPM, (rect.getY() + rect.getHeight() / 2)/ PirateGame.PPM);
-
+            fdef.filter.categoryBits = screen.CATEGORY_WORLD;
+            fdef.filter.maskBits = -1;
             body = world.createBody(bodyDef);
 
             shape.setAsBox((rect.getWidth()/2)/ PirateGame.PPM, (rect.getHeight()/2)/ PirateGame.PPM);

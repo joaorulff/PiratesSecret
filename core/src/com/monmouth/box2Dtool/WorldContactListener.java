@@ -1,20 +1,46 @@
 package com.monmouth.box2Dtool;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
+import com.monmouth.screens.PlayScreen;
+import com.monmouth.sprites.Star;
+
+import javax.swing.plaf.synth.SynthTextAreaUI;
+import java.util.ArrayList;
 
 /**
  * Created by joaolucasrulffdacosta on 10/31/15.
  */
 public class WorldContactListener implements ContactListener{
+    private PlayScreen screen;
+    private Array<Body> starsToBeDeleted =  new Array<Body>();
 
+    public WorldContactListener(PlayScreen screen) {
+        this.screen = screen;
+    }
 
     @Override
     public void beginContact(Contact contact) {
-        Gdx.app.log("Begin Contact", "");
+
+        Short a = contact.getFixtureA().getFilterData().categoryBits;
+        Short b = contact.getFixtureB().getFilterData().categoryBits;
+
+        //CHECKING IF STAR IS COLLIDING.
+        if(a == screen.CATEGORY_STAR) {
+            System.out.println("star colliding!A");
+            starsToBeDeleted.add((Body)contact.getFixtureA().getBody());
+
+        }
+        if(b == screen.CATEGORY_STAR) {
+            System.out.println("star colliding!B");
+            starsToBeDeleted.add((Body)contact.getFixtureB().getBody());
+        }
+        
+    }
+
+    public Array<Body> getStarsToBeDeleted() {
+        return starsToBeDeleted;
     }
 
     @Override
