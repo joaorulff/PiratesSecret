@@ -153,7 +153,7 @@ public class PlayScreen implements Screen {
         ninja.update(deltaTime);
         pirate1.update(deltaTime);
 
-        hud.updateTime(deltaTime);
+
         HUD.updateScore(1);
 
         this.gamecamera.position.x = this.ninja.ninjaBody.getPosition().x;

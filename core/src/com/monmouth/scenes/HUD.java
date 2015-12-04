@@ -31,14 +31,14 @@ public class HUD implements Disposable{
 
     Label countDownLabel;
     static Label scoreLabel;
-    Label timeLabel;
+    Label livesLabel;
     Label levelLabel;
     Label worldLabel;
     Label pirateLabel;
 
     public HUD(SpriteBatch spriteBatch){
 
-        worldTimer = 300;
+
         timeCounter = 0;
         score = 0;
 
@@ -54,17 +54,17 @@ public class HUD implements Disposable{
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 12;
         BitmapFont font = generator.generateFont(parameter);
-        countDownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(font, Color.WHITE));
+        //countDownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(font, Color.WHITE));
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(font, Color.WHITE));
-        timeLabel = new Label("TIME", new Label.LabelStyle(font, Color.WHITE));
+        livesLabel = new Label("LIVES", new Label.LabelStyle(font, Color.WHITE));
         levelLabel = new Label("1-1", new Label.LabelStyle(font, Color.WHITE));
         //worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        pirateLabel = new Label("Pirate's Secret", new Label.LabelStyle(font, Color.WHITE));
+        pirateLabel = new Label("SCORE", new Label.LabelStyle(font, Color.WHITE));
 
 
         hudStageTable.add(pirateLabel).expandX().padTop(10);
         //hudStageTable.add(worldLabel).expandX().padTop(10);
-        hudStageTable.add(timeLabel).expandX().padTop(10);
+        hudStageTable.add(livesLabel).expandX().padTop(10);
 
         hudStageTable.row();
         hudStageTable.add(scoreLabel).expandX();
@@ -76,16 +76,9 @@ public class HUD implements Disposable{
 
     }
 
-    public void updateTime(float deltaTime){
 
-        timeCounter += deltaTime;
-        if(timeCounter >= 1){
-            worldTimer--;
-            countDownLabel.setText(String.format("%03d", worldTimer));
-            timeCounter = 0;
-        }
 
-    }
+
 
     public static void updateScore(int value){
         score += value;
