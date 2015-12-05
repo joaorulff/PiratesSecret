@@ -18,7 +18,15 @@ public class Pirate extends Sprite {
     protected World mainWorld;
     private PlayScreen playScreen;
     public Body pirateBody;
+    private boolean toBeDeleted = false;
 
+    public boolean isToBeDeleted() {
+        return toBeDeleted;
+    }
+
+    public void setToBeDeleted(boolean toBeDeleted) {
+        this.toBeDeleted = toBeDeleted;
+    }
 
     private float stateTime;
     private Animation pirateAnimation;
@@ -35,14 +43,14 @@ public class Pirate extends Sprite {
 
 
         frames.add(new TextureRegion(screen.getPirateAtlas().findRegion("pirateShrink"), 0, 0, 31, 48));
-        frames.get(0).flip(true,false);
+        frames.get(0).flip(true, false);
         frames.add(new TextureRegion(screen.getPirateAtlas().findRegion("pirateShrink"), 41, 0, 31, 48));
-        frames.get(1).flip(true,false);
+        frames.get(1).flip(true, false);
 
         pirateAnimation = new Animation(0.4f, frames);
         stateTime = 0;
 
-        setBounds(0,0, 35/PirateGame.PPM, 35/PirateGame.PPM);
+        setBounds(0, 0, 35 / PirateGame.PPM, 35 / PirateGame.PPM);
 
 
         this.setPosition(x, y);
@@ -50,11 +58,11 @@ public class Pirate extends Sprite {
 
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
         stateTime += deltaTime;
-        setPosition(pirateBody.getPosition().x - this.getWidth() /2, pirateBody.getPosition().y - this.getHeight()/2);
+        setPosition(pirateBody.getPosition().x - this.getWidth() / 2, pirateBody.getPosition().y - this.getHeight() / 2);
         this.setRegion(pirateAnimation.getKeyFrame(stateTime, true));
-
+        this.pirateBody.setLinearVelocity(2f,0f);
     }
 
     private void definePirate() {
@@ -73,9 +81,11 @@ public class Pirate extends Sprite {
 
         pirateFixtureDef.shape = pirateShape;
         pirateFixtureDef.filter.categoryBits = playScreen.CATEGORY_PIRATE;
-        pirateFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_NINJA|playScreen.CATEGORY_WORLD|playScreen.CATEGORY_STAR);
+        pirateFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_NINJA | playScreen.CATEGORY_WORLD | playScreen.CATEGORY_STAR);
 
         pirateBody.createFixture(pirateFixtureDef);
     }
-
+    public void remove() {
+        this.pirateBody.getWorld().destroyBody(pirateBody);
+    }
 }

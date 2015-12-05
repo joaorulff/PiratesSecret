@@ -1,5 +1,7 @@
 package com.monmouth.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import com.monmouth.game.PirateGame;
@@ -16,11 +18,20 @@ public class Star extends Sprite{
     private PlayScreen playScreen;
     private FixtureDef starFixtureDef;
 
+    public boolean isToBeDeleted() {
+        return toBeDeleted;
+    }
 
+    public void setToBeDeleted(boolean toBeDeleted) {
+        this.toBeDeleted = toBeDeleted;
+    }
+
+    private Texture starTexture;
+    private boolean toBeDeleted = false;
 
     //private Texture starTexture;
     public Star (World world, PlayScreen screen, float x, Ninja ninja){
-        //super(new Texture(Gdx.files.internal("ninjastar.png")));
+        super(new Texture(Gdx.files.internal("star.png")));
         //this.setSize(100f/PirateGame.PPM,100f/PirateGame.PPM);
         this.mainWorld = world;
         this.ninja = ninja;
@@ -53,11 +64,15 @@ public class Star extends Sprite{
         starBody.setLinearVelocity(5,0);
         starBody.setGravityScale(0);
 
-    }
+        this.setSize(32/PirateGame.PPM,32/PirateGame.PPM);
+        this.setPosition(starBody.getPosition().x - this.getWidth() / 2, starBody.getPosition().y - this.getHeight() / 2);
 
+    }
+    public void update(float deltaTime) {
+        this.setPosition(starBody.getPosition().x - this.getWidth() / 2, starBody.getPosition().y - this.getHeight() / 2);
+    }
     public void destroy() {
         this.starBody.getWorld().destroyBody(this.starBody);
-
     }
 
     public float getStarBodyX() {

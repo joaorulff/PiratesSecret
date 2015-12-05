@@ -25,6 +25,7 @@ import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -66,7 +67,7 @@ public class PlayScreen implements Screen {
     private Ninja ninja;
 
     //Temporary pirate
-    private Pirate pirate1;
+    private ArrayList<Pirate> pirates;
 
     //Music
     private Music gameMusic;
@@ -114,7 +115,7 @@ public class PlayScreen implements Screen {
         //Ninja
         this.ninja = new Ninja(this);
 
-        //this.pirates = new ArrayList<Pirate>();
+        this.pirates = new ArrayList<Pirate>();
         this.stars = new ArrayList<Star>();
 
         //Colision Handle
@@ -126,8 +127,8 @@ public class PlayScreen implements Screen {
         gameMusic.setLooping(true);
         gameMusic.play();
 
-        pirate1 = new Pirate(this, this.ninja.getNinjaBodyX(), this.ninja.getNinjaBodyY()+3f);
-
+        //pirate1 = new Pirate(this, this.ninja.getNinjaBodyX()+5f, this.ninja.getNinjaBodyY()+3f);
+        pirates.add(new Pirate(this, this.ninja.getNinjaBodyX()+5f, this.ninja.getNinjaBodyY()+3f));
 
     }
 
@@ -151,7 +152,14 @@ public class PlayScreen implements Screen {
         this.world.step(1/60f, 6, 2);
 
         ninja.update(deltaTime);
-        pirate1.update(deltaTime);
+        for(Pirate aPirate : pirates) {
+            if(!aPirate.isToBeDeleted())
+                aPirate.update(deltaTime);
+        }
+        for(Star aStar : stars) {
+            if(!aStar.isToBeDeleted())
+                aStar.update(deltaTime);
+        }
 
 
         HUD.updateScore(1);
@@ -162,25 +170,14 @@ public class PlayScreen implements Screen {
         gamecamera.update();
         mapRenderer.setView(gamecamera);
 
-        for (Body body : contactListener.getStarsToBeDeleted())
-        {
-            world.destroyBody(body);
-        }
 
-        contactListener.getStarsToBeDeleted().clear();
 
         //FIXING NINJA COLLISION
         if(this.getNinja().getNinjaBodyY() < 0) {
-            System.out.println("ninja caiu");
-            this.getNinja().ninjaBody.getPosition().x += 1;
-            this.getNinja().ninjaBody.getPosition().y += 5;
+            //System.out.println("ninja caiu");
+            this.getNinja().ninjaBody.setTransform(this.getNinja().ninjaBody.getPosition().x + 1, this.getNinja().ninjaBody.getPosition().y + 5, 0);
         }
-        if(this.getNinja().getNinjaBodyY() < 0) {
-            System.out.println("ninja caiu");
-            this.getNinja().ninjaBody.getPosition().x += 1;
-            this.getNinja().ninjaBody.getPosition().y += 5;
-        }
-        //System.out.println(ninja.ninjaBody.getPosition().y);
+       //stem.out.println(ninja.ninjaBody.getPosition().y);
 
     }
 
@@ -191,8 +188,6 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
             if(this.ninja.getState() != Ninja.State.JUMPING) {
-
-
                 this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 4f), this.ninja.ninjaBody.getWorldCenter(), true);
                 PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
             }
@@ -208,7 +203,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
 
             stars.add(new Star(this.world, this, this.ninja.getX(), this.ninja));
-
+            pirates.add(new Pirate(this, this.ninja.getNinjaBodyX()+5f, this.ninja.getNinjaBodyY()+3f));
 
            // this.stars.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldPoint(new Vector2(0,32)),true);
         }
@@ -242,19 +237,36 @@ public class PlayScreen implements Screen {
 
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
-        pirate1.draw(pirateGame.batch);
-        ninja.draw(pirateGame.batch);
 
-        /*for(int i = 0; i<stars.size(); i++) {
-            stars.get(i).draw(pirateGame.batch);
-        }*/
+        for(Pirate aPirate : pirates) {
+            if(!aPirate.isToBeDeleted())
+                aPirate.draw(pirateGame.batch);
+        }
+        for(Star aStar : stars) {
+            if(!aStar.isToBeDeleted())
+                aStar.draw(pirateGame.batch);
+        }
+        ninja.draw(pirateGame.batch);
         pirateGame.batch.end();
 
 
         pirateGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-
+        for (Body body : contactListener.getStarsToBeDeleted())
+        {
+            world.destroyBody(body);
+            Star aStar = (Star)body.getUserData();
+            stars.remove(aStar);
+        }
+        for (Body body : contactListener.getPiratesToBeDeleted())
+        {
+            world.destroyBody(body);
+            Pirate aPirate = (Pirate)body.getUserData();
+            pirates.remove(aPirate);
+        }
+        contactListener.getPiratesToBeDeleted().clear();
+        contactListener.getStarsToBeDeleted().clear();
 
     }
 
