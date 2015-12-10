@@ -62,7 +62,7 @@ public class Pirate extends Sprite {
         stateTime += deltaTime;
         setPosition(pirateBody.getPosition().x - this.getWidth() / 2, pirateBody.getPosition().y - this.getHeight() / 2);
         this.setRegion(pirateAnimation.getKeyFrame(stateTime, true));
-        this.pirateBody.setLinearVelocity(2f,0f);
+        //this.pirateBody.setLinearVelocity(2f,0f);
     }
 
     private void definePirate() {

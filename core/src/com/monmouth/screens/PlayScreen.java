@@ -9,11 +9,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.*;
 import com.monmouth.box2Dtool.Box2DCreator;
@@ -128,8 +133,14 @@ public class PlayScreen implements Screen {
         gameMusic.play();
 
         //pirate1 = new Pirate(this, this.ninja.getNinjaBodyX()+5f, this.ninja.getNinjaBodyY()+3f);
+        for(MapObject object : map.getLayers().get(3).getObjects()) {
+            float x = Float.parseFloat(object.getProperties().get("x").toString());
+            float y = Float.parseFloat(object.getProperties().get("y").toString());
+            pirates.add(new Pirate(this, x/PirateGame.PPM, y/PirateGame.PPM));
+        }
+        System.out.println(map.getLayers().get(3).getObjects().get(1).getProperties().get("x"));
         pirates.add(new Pirate(this, this.ninja.getNinjaBodyX()+5f, this.ninja.getNinjaBodyY()+3f));
-
+        System.out.print(pirates.get(0).pirateBody.getPosition().toString());
     }
 
     @Override
@@ -170,7 +181,20 @@ public class PlayScreen implements Screen {
         gamecamera.update();
         mapRenderer.setView(gamecamera);
 
-
+        for (Body body : contactListener.getStarsToBeDeleted())
+        {
+            world.destroyBody(body);
+            Star aStar = (Star)body.getUserData();
+            stars.remove(aStar);
+        }
+        for (Body body : contactListener.getPiratesToBeDeleted())
+        {
+            world.destroyBody(body);
+            Pirate aPirate = (Pirate)body.getUserData();
+            pirates.remove(aPirate);
+        }
+        contactListener.getPiratesToBeDeleted().clear();
+        contactListener.getStarsToBeDeleted().clear();
 
         //FIXING NINJA COLLISION
         if(this.getNinja().getNinjaBodyY() < 0) {
@@ -203,7 +227,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
 
             stars.add(new Star(this.world, this, this.ninja.getX(), this.ninja));
-            pirates.add(new Pirate(this, this.ninja.getNinjaBodyX()+5f, this.ninja.getNinjaBodyY()+3f));
+            //pirates.add(new Pirate(this, this.ninja.getNinjaBodyX()+5f, this.ninja.getNinjaBodyY()+3f));
 
            // this.stars.starBody.applyLinearImpulse(new Vector2(0.5f, 0), this.ninja.ninjaBody.getWorldPoint(new Vector2(0,32)),true);
         }
@@ -253,20 +277,7 @@ public class PlayScreen implements Screen {
         pirateGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        for (Body body : contactListener.getStarsToBeDeleted())
-        {
-            world.destroyBody(body);
-            Star aStar = (Star)body.getUserData();
-            stars.remove(aStar);
-        }
-        for (Body body : contactListener.getPiratesToBeDeleted())
-        {
-            world.destroyBody(body);
-            Pirate aPirate = (Pirate)body.getUserData();
-            pirates.remove(aPirate);
-        }
-        contactListener.getPiratesToBeDeleted().clear();
-        contactListener.getStarsToBeDeleted().clear();
+
 
     }
 
@@ -316,6 +327,7 @@ public class PlayScreen implements Screen {
         this.world.dispose();
         //this.box2DDR.dispose();
         this.hud.dispose();
+
 
     }
 
