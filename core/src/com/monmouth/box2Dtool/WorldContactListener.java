@@ -17,6 +17,7 @@ public class WorldContactListener implements ContactListener{
     private PlayScreen screen;
     private Array<Body> starsToBeDeleted =  new Array<Body>();
     private Array<Body> piratesToBeDeleted = new Array<Body>();
+    public boolean isNinjaHittingPirate = false;
     public WorldContactListener(PlayScreen screen) {
         this.screen = screen;
     }
@@ -59,6 +60,16 @@ public class WorldContactListener implements ContactListener{
                 tempPirate.setToBeDeleted(true);
 
                 piratesToBeDeleted.add((Body)contact.getFixtureA().getBody());
+            }
+        }
+        if(a == screen.CATEGORY_NINJA) {
+            if(b == screen.CATEGORY_PIRATE) {
+                isNinjaHittingPirate = true;
+            }
+        }
+        if(b == screen.CATEGORY_NINJA) {
+            if(a == screen.CATEGORY_PIRATE) {
+                isNinjaHittingPirate = true;
             }
         }
 

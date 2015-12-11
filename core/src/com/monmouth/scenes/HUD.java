@@ -6,18 +6,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.monmouth.box2Dtool.WorldContactListener;
 import com.monmouth.game.PirateGame;
-
+import com.monmouth.screens.PlayScreen;
+import com.monmouth.sprites.Life;
 
 
 /**
@@ -30,56 +30,49 @@ public class HUD implements Disposable{
 
     private Viewport hudViewPort;
 
-    private Integer worldTimer;
-    private float timeCounter;
     private static Integer score;
+    private PlayScreen screen;
 
-    Label countDownLabel;
     static Label scoreLabel;
     Label livesLabel;
-    Label levelLabel;
-    Label worldLabel;
     Label pirateLabel;
+    public Array<Life> lives;
 
+    public HUD(SpriteBatch spriteBatch, PlayScreen screen ){
 
-    public HUD(SpriteBatch spriteBatch){
-
-
-        timeCounter = 0;
+        this.screen = screen;
         score = 0;
 
         hudViewPort = new FitViewport(PirateGame.V_WIDTH, PirateGame.V_HEIGHT, new OrthographicCamera());
 
         stage = new Stage(hudViewPort);
 
-        Table hudStageTable = new Table();
-        hudStageTable.top();
 
-        hudStageTable.setFillParent(true);
+
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 12;
         BitmapFont font = generator.generateFont(parameter);
-        //countDownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(font, Color.WHITE));
-        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(font, Color.WHITE));
-        livesLabel = new Label("LIVES", new Label.LabelStyle(font, Color.WHITE));
-        levelLabel = new Label("1-1", new Label.LabelStyle(font, Color.WHITE));
-        //worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+
         pirateLabel = new Label("SCORE", new Label.LabelStyle(font, Color.WHITE));
+        pirateLabel.setPosition(0+pirateLabel.getWidth(),203-pirateLabel.getHeight());
 
+        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(font, Color.WHITE));
+        scoreLabel.setPosition(pirateLabel.getX(),190-scoreLabel.getHeight());
 
-        hudStageTable.add(pirateLabel).expandX().padTop(10);
-        //hudStageTable.add(worldLabel).expandX().padTop(10);
-        hudStageTable.add(livesLabel).expandX().padTop(10);
+        livesLabel = new Label("LIVES", new Label.LabelStyle(font, Color.WHITE));
+        livesLabel.setPosition(350-livesLabel.getWidth(),203-livesLabel.getHeight());
 
-        hudStageTable.row();
-        hudStageTable.add(scoreLabel).expandX();
-        //hudStageTable.add(levelLabel).expandX();
-        hudStageTable.add(countDownLabel).expandX();
-
-
-        stage.addActor(hudStageTable);
-
+        lives = new Array<Life>();
+        for(int i = 0; i<5 ; i++) {
+            Life life = new Life(livesLabel.getX()+(i-1)+16*(i),livesLabel.getY()-21);
+            lives.add(life);
+            stage.addActor(life);
+        }
+        stage.addActor(pirateLabel);
+        stage.addActor(scoreLabel);
+        stage.addActor(livesLabel);
 
     }
 
@@ -93,7 +86,15 @@ public class HUD implements Disposable{
         scoreLabel.setText(String.format("%06d", score));
     }
 
+    public void updateLife() {
 
+        if(this.screen.getContactListener().isNinjaHittingPirate) {
+            System.out.print("teste");
+            lives.get(lives.size-1).remove();
+            lives.removeIndex(lives.size-1);
+            this.screen.getContactListener().isNinjaHittingPirate = false;
+        }
+    }
 
 
     @Override

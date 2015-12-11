@@ -85,6 +85,8 @@ public class PlayScreen implements Screen {
     //Music
     private Music gameMusic;
 
+
+
     //Star
     private ArrayList<Star> stars;
     private Life life1;
@@ -109,7 +111,7 @@ public class PlayScreen implements Screen {
         this.gameViewPort = new FitViewport(PirateGame.V_WIDTH / PirateGame.PPM*2, PirateGame.V_HEIGHT / PirateGame.PPM*2, gamecamera);
         gamecamera.position.set(gameViewPort.getWorldWidth()/2, gameViewPort.getWorldHeight()/2, 0);
 
-        hud = new HUD(pirateGame.batch);
+        hud = new HUD(pirateGame.batch, this);
 
         //Map initialization
         mapLoader = new TmxMapLoader();
@@ -130,7 +132,7 @@ public class PlayScreen implements Screen {
 
         this.pirates = new ArrayList<Pirate>();
         this.stars = new ArrayList<Star>();
-        this.life1 = new Life(this, this.gamecamera.position.x);
+        //this.life1 = new Life(this, this.gamecamera.position.x);
 
         //Colision Handle
         contactListener= new WorldContactListener(this);
@@ -147,9 +149,7 @@ public class PlayScreen implements Screen {
             float y = Float.parseFloat(object.getProperties().get("y").toString());
             pirates.add(new Pirate(this, x/PirateGame.PPM, y/PirateGame.PPM));
         }
-        System.out.println(map.getLayers().get(3).getObjects().get(1).getProperties().get("x"));
-        pirates.add(new Pirate(this, this.ninja.getNinjaBodyX() + 5f, this.ninja.getNinjaBodyY() + 3f));
-        System.out.print(pirates.get(0).pirateBody.getPosition().toString());
+
     }
 
     @Override
@@ -170,7 +170,7 @@ public class PlayScreen implements Screen {
 
 
         this.world.step(1/60f, 6, 2);
-        life1.update();
+        //life1.update();
         ninja.update(deltaTime);
         for(Pirate aPirate : pirates) {
             if(!aPirate.isToBeDeleted())
@@ -182,7 +182,6 @@ public class PlayScreen implements Screen {
         }
 
 
-        HUD.updateScore(1);
 
         this.gamecamera.position.x = this.ninja.ninjaBody.getPosition().x;
         //pirates.add(new Pirate(this.world, this, new Vector2(this.gamecamera.position.x, this.ninja.getNinjaBodyY())));
@@ -211,6 +210,9 @@ public class PlayScreen implements Screen {
             this.getNinja().ninjaBody.setTransform(this.getNinja().ninjaBody.getPosition().x + 1, this.getNinja().ninjaBody.getPosition().y + 5, 0);
         }
        //stem.out.println(ninja.ninjaBody.getPosition().y);
+        if(hud.lives.size != 0)
+            hud.updateLife();
+        HUD.updateScore(1);
 
     }
 
@@ -271,8 +273,8 @@ public class PlayScreen implements Screen {
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
 
-        life1.draw(pirateGame.batch);
-        System.out.println(this.gamecamera.position.x + "," + this.gamecamera.position.y);
+        //life1.draw(pirateGame.batch);
+        //System.out.println(this.gamecamera.position.x + "," + this.gamecamera.position.y);
         for(Pirate aPirate : pirates) {
             if(!aPirate.isToBeDeleted())
                 aPirate.draw(pirateGame.batch);
@@ -344,5 +346,8 @@ public class PlayScreen implements Screen {
 
     public ArrayList<Star> getStars() {
         return stars;
+    }
+    public WorldContactListener getContactListener() {
+        return contactListener;
     }
 }
