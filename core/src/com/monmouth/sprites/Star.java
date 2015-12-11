@@ -53,7 +53,7 @@ public class Star extends Sprite{
         starBody.setUserData(this);
         starFixtureDef = new FixtureDef();
         CircleShape starShape = new CircleShape();
-        starShape.setRadius(4 / PirateGame.PPM);
+        starShape.setRadius(8/ PirateGame.PPM);
 
 
         starFixtureDef.shape = starShape;
@@ -61,7 +61,7 @@ public class Star extends Sprite{
         starFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_PIRATE|playScreen.CATEGORY_WORLD);
         starBody.createFixture(starFixtureDef);
 
-        starBody.setLinearVelocity(5,0);
+        starBody.setLinearVelocity(20f,0);
         starBody.setGravityScale(0);
 
         this.setSize(32/PirateGame.PPM,32/PirateGame.PPM);

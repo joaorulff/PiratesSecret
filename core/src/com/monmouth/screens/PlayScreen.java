@@ -110,7 +110,9 @@ public class PlayScreen implements Screen {
 
         //Camera and viewport initialization
         this.gamecamera = new OrthographicCamera();
-        this.gameViewPort = new FitViewport(PirateGame.V_WIDTH / PirateGame.PPM*2, PirateGame.V_HEIGHT / PirateGame.PPM*2, gamecamera);
+
+        //Gameviewport => 30 tiles in x and 19 tiles in y
+        this.gameViewPort = new FitViewport(30,19, gamecamera);
         gamecamera.position.set(gameViewPort.getWorldWidth()/2, gameViewPort.getWorldHeight()/2, 0);
 
         hud = new HUD(pirateGame.batch, this);
@@ -226,14 +228,14 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
             if(this.ninja.getState() != Ninja.State.JUMPING) {
-                this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 4f), this.ninja.ninjaBody.getWorldCenter(), true);
+                this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 8f), this.ninja.ninjaBody.getWorldCenter(), true);
                 PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
             }
 
         }
 
         //Ninja forward movement
-        if(this.ninja.ninjaBody.getLinearVelocity().x <= 1) {
+        if(this.ninja.ninjaBody.getLinearVelocity().x <= 4.5) {
             this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0.3125f, 0), this.ninja.ninjaBody.getWorldCenter(), true);
         }
 
@@ -260,9 +262,7 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
 
         this.handleInput(delta);
-        if(currentGameState == gameState.GAME_OVER) {
-           pirateGame.setScreen(new StartScreen(pirateGame));
-        }
+
         if(currentGameState != gameState.PAUSED){
             this.update(delta);
         }
@@ -296,7 +296,11 @@ public class PlayScreen implements Screen {
         hud.stage.draw();
 
 
+        if(currentGameState == gameState.GAME_OVER) {
+            pirateGame.setScreen(new GameOverScreen(pirateGame));
 
+            dispose();
+        }
     }
 
     @Override

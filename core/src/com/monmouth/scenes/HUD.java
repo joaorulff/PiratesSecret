@@ -51,18 +51,18 @@ public class HUD implements Disposable{
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 12;
+        parameter.size = 18;
         BitmapFont font = generator.generateFont(parameter);
 
 
         pirateLabel = new Label("SCORE", new Label.LabelStyle(font, Color.WHITE));
-        pirateLabel.setPosition(0+pirateLabel.getWidth(),203-pirateLabel.getHeight());
+        pirateLabel.setPosition(0+pirateLabel.getWidth(),475-pirateLabel.getHeight());
 
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(font, Color.WHITE));
-        scoreLabel.setPosition(pirateLabel.getX(),190-scoreLabel.getHeight());
+        scoreLabel.setPosition(pirateLabel.getX(),455-scoreLabel.getHeight());
 
         livesLabel = new Label("LIVES", new Label.LabelStyle(font, Color.WHITE));
-        livesLabel.setPosition(350-livesLabel.getWidth(),203-livesLabel.getHeight());
+        livesLabel.setPosition(750-livesLabel.getWidth(),475-livesLabel.getHeight());
 
         lives = new Array<Life>();
         for(int i = 0; i<5 ; i++) {
@@ -77,9 +77,13 @@ public class HUD implements Disposable{
     }
 
 
+    public static Integer getScore() {
+        return score;
+    }
 
-
-
+    public static void setScore(Integer score) {
+        HUD.score = score;
+    }
 
     public static void updateScore(int value){
         score += value;
@@ -90,9 +94,9 @@ public class HUD implements Disposable{
 
         if(this.screen.getContactListener().isNinjaHittingPirate || this.screen.isNinjaFell()) {
             if(this.screen.getContactListener().isNinjaHittingPirate)
-                this.screen.getNinja().ninjaBody.setTransform(this.screen.getNinja().ninjaBody.getPosition().x, this.screen.getNinja().ninjaBody.getPosition().y + 5, 0);
+                this.screen.getNinja().ninjaBody.setTransform(this.screen.getNinja().ninjaBody.getPosition().x, this.screen.getNinja().ninjaBody.getPosition().y + 3, 0);
             if(this.screen.isNinjaFell())
-                this.screen.getNinja().ninjaBody.setTransform(this.screen.getNinja().ninjaBody.getPosition().x, this.screen.getNinja().ninjaBody.getPosition().y + 5, 0);
+                this.screen.getNinja().ninjaBody.setTransform(this.screen.getNinja().ninjaBody.getPosition().x+1, this.screen.getNinja().ninjaBody.getPosition().y + 10, 0);
             lives.get(lives.size-1).remove();
             lives.removeIndex(lives.size-1);
 
