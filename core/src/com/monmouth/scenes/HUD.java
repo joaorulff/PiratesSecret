@@ -88,11 +88,17 @@ public class HUD implements Disposable{
 
     public void updateLife() {
 
-        if(this.screen.getContactListener().isNinjaHittingPirate) {
-            System.out.print("teste");
+        if(this.screen.getContactListener().isNinjaHittingPirate || this.screen.isNinjaFell()) {
+            if(this.screen.getContactListener().isNinjaHittingPirate)
+                this.screen.getNinja().ninjaBody.setTransform(this.screen.getNinja().ninjaBody.getPosition().x, this.screen.getNinja().ninjaBody.getPosition().y + 5, 0);
+            if(this.screen.isNinjaFell())
+                this.screen.getNinja().ninjaBody.setTransform(this.screen.getNinja().ninjaBody.getPosition().x, this.screen.getNinja().ninjaBody.getPosition().y + 5, 0);
             lives.get(lives.size-1).remove();
             lives.removeIndex(lives.size-1);
+
+            //callback of actions to do on playscreen
             this.screen.getContactListener().isNinjaHittingPirate = false;
+            this.screen.setNinjaFell(false);
         }
     }
 

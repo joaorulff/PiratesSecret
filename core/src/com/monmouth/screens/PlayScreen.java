@@ -37,8 +37,10 @@ import java.util.LinkedList;
 
 public class PlayScreen implements Screen {
 
-    private enum gameState {RUNNING, PAUSED, JUMPING};
+    private enum gameState {RUNNING, PAUSED, JUMPING, GAME_OVER};
     private gameState currentGameState;
+    private boolean ninjaFell = false;
+
 
     private PirateGame pirateGame;
 
@@ -132,7 +134,7 @@ public class PlayScreen implements Screen {
 
         this.pirates = new ArrayList<Pirate>();
         this.stars = new ArrayList<Star>();
-        //this.life1 = new Life(this, this.gamecamera.position.x);
+
 
         //Colision Handle
         contactListener= new WorldContactListener(this);
@@ -203,11 +205,12 @@ public class PlayScreen implements Screen {
         }
         contactListener.getPiratesToBeDeleted().clear();
         contactListener.getStarsToBeDeleted().clear();
-
-        //FIXING NINJA COLLISION
+        if(hud.lives.size == 0) {
+            this.currentGameState = gameState.GAME_OVER;
+        }
+        //Checking if ninja fell
         if(this.getNinja().getNinjaBodyY() < 0) {
-            //System.out.println("ninja caiu");
-            this.getNinja().ninjaBody.setTransform(this.getNinja().ninjaBody.getPosition().x + 1, this.getNinja().ninjaBody.getPosition().y + 5, 0);
+            this.ninjaFell = true;
         }
        //stem.out.println(ninja.ninjaBody.getPosition().y);
         if(hud.lives.size != 0)
@@ -257,9 +260,11 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
 
         this.handleInput(delta);
-
+        if(currentGameState == gameState.GAME_OVER) {
+           pirateGame.setScreen(new StartScreen(pirateGame));
+        }
         if(currentGameState != gameState.PAUSED){
-        this.update(delta);
+            this.update(delta);
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -301,13 +306,7 @@ public class PlayScreen implements Screen {
 
     }
 
-    public TiledMap getMap(){
-        return map;
-    }
 
-    public World getWorld(){
-        return this.world;
-    }
 
     @Override
     public void pause() {
@@ -349,5 +348,17 @@ public class PlayScreen implements Screen {
     }
     public WorldContactListener getContactListener() {
         return contactListener;
+    }
+    public boolean isNinjaFell() {
+        return ninjaFell;
+    }
+    public void setNinjaFell(boolean ninjaFell) {
+        this.ninjaFell = ninjaFell;
+    }
+    public TiledMap getMap(){
+        return map;
+    }
+    public World getWorld(){
+        return this.world;
     }
 }

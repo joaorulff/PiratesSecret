@@ -65,11 +65,19 @@ public class WorldContactListener implements ContactListener{
         if(a == screen.CATEGORY_NINJA) {
             if(b == screen.CATEGORY_PIRATE) {
                 isNinjaHittingPirate = true;
+                Pirate tempPirate = (Pirate)contact.getFixtureB().getBody().getUserData();
+                tempPirate.setToBeDeleted(true);
+
+                piratesToBeDeleted.add((Body)contact.getFixtureB().getBody());
             }
         }
         if(b == screen.CATEGORY_NINJA) {
             if(a == screen.CATEGORY_PIRATE) {
                 isNinjaHittingPirate = true;
+                Pirate tempPirate = (Pirate)contact.getFixtureA().getBody().getUserData();
+                tempPirate.setToBeDeleted(true);
+
+                piratesToBeDeleted.add((Body)contact.getFixtureA().getBody());
             }
         }
 
