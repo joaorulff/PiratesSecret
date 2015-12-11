@@ -18,12 +18,21 @@ public class WorldContactListener implements ContactListener{
     private Array<Body> starsToBeDeleted =  new Array<Body>();
     private Array<Body> piratesToBeDeleted = new Array<Body>();
     public boolean isNinjaHittingPirate = false;
+    public boolean isNinjaOnGround = true;
     public WorldContactListener(PlayScreen screen) {
         this.screen = screen;
     }
 
     public Array<Body> getPiratesToBeDeleted() {
         return piratesToBeDeleted;
+    }
+
+    public boolean isNinjaHittingPirate() {
+        return isNinjaHittingPirate;
+    }
+
+    public void setNinjaHittingPirate(boolean ninjaHittingPirate) {
+        isNinjaHittingPirate = ninjaHittingPirate;
     }
 
     @Override
@@ -38,6 +47,7 @@ public class WorldContactListener implements ContactListener{
             //System.out.println("star colliding!A");
             starsToBeDeleted.add((Body)contact.getFixtureA().getBody());
             Star tempStar = (Star) contact.getFixtureA().getBody().getUserData();
+
             tempStar.setToBeDeleted(true);
             if(b == screen.CATEGORY_PIRATE) {
                 System.out.println("Bateu no pirataB");
@@ -70,6 +80,9 @@ public class WorldContactListener implements ContactListener{
 
                 piratesToBeDeleted.add((Body)contact.getFixtureB().getBody());
             }
+            if(b == screen.CATEGORY_WORLD) {
+                isNinjaOnGround = true;
+            }
         }
         if(b == screen.CATEGORY_NINJA) {
             if(a == screen.CATEGORY_PIRATE) {
@@ -78,6 +91,9 @@ public class WorldContactListener implements ContactListener{
                 tempPirate.setToBeDeleted(true);
 
                 piratesToBeDeleted.add((Body)contact.getFixtureA().getBody());
+            }
+            if(a == screen.CATEGORY_WORLD) {
+                isNinjaOnGround = true;
             }
         }
 
@@ -90,7 +106,17 @@ public class WorldContactListener implements ContactListener{
     @Override
     public void endContact(Contact contact) {
         //Gdx.app.log("End Contact", "");
+        Short a = contact.getFixtureA().getFilterData().categoryBits;
+        Short b = contact.getFixtureB().getFilterData().categoryBits;
+        if(a == screen.CATEGORY_NINJA) {
+            if(b == screen.CATEGORY_WORLD)
+                isNinjaOnGround = false;
+        }
+        if(b == screen.CATEGORY_NINJA) {
+            if(a == screen.CATEGORY_WORLD)
+                isNinjaOnGround = false;
 
+        }
     }
 
     @Override

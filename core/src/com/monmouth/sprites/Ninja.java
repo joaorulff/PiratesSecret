@@ -85,6 +85,7 @@ public class Ninja extends Sprite{
             case IDLE:
                 currentTextureRegion = this.idleNinja;
                 break;
+
         }
 
         if(currentState == previousState) stateTimer +=deltaTime;
@@ -104,8 +105,10 @@ public class Ninja extends Sprite{
         if(ninjaBody.getLinearVelocity().x > 0){
             return State.RUNNING;
         }
+
         return State.IDLE;
     }
+
     public float getNinjaBodyY() {
         return this.ninjaBody.getPosition().y;
     }

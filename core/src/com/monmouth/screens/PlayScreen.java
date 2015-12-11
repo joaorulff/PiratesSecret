@@ -112,7 +112,7 @@ public class PlayScreen implements Screen {
         this.gamecamera = new OrthographicCamera();
 
         //Gameviewport => 30 tiles in x and 19 tiles in y
-        this.gameViewPort = new FitViewport(30,19, gamecamera);
+        this.gameViewPort = new FitViewport(30,17, gamecamera);
         gamecamera.position.set(gameViewPort.getWorldWidth()/2, gameViewPort.getWorldHeight()/2, 0);
 
         hud = new HUD(pirateGame.batch, this);
@@ -124,7 +124,7 @@ public class PlayScreen implements Screen {
 
 
         //Box2D Variables initialization
-        this.world = new World(new Vector2(0,-10), true); //The vector stands for gravity.
+        this.world = new World(new Vector2(0,-20), true); //The vector stands for gravity.
 
         this.box2DDR = new Box2DDebugRenderer();
 
@@ -227,8 +227,9 @@ public class PlayScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
-            if(this.ninja.getState() != Ninja.State.JUMPING) {
-                this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 8f), this.ninja.ninjaBody.getWorldCenter(), true);
+
+            if(contactListener.isNinjaOnGround) {
+                this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 12f), this.ninja.ninjaBody.getWorldCenter(), true);
                 PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
             }
 
