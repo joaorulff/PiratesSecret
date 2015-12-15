@@ -21,7 +21,7 @@ public class PirateGame extends Game {
 
 
     public SpriteBatch batch;
-    public BitmapFont font;
+    //public BitmapFont font;
 
     public static final int V_WIDTH = 800;
     public static final int V_HEIGHT = 480;
@@ -33,10 +33,7 @@ public class PirateGame extends Game {
     public static AssetManager assetManager;
 
     public void create () {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 12;
-        font = generator.generateFont(parameter);
+
         batch = new SpriteBatch();
         assetManager = new AssetManager();
         assetManager.load("audio/music/pirateMusic.mp3", Music.class);

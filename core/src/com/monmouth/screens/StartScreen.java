@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.monmouth.game.PirateGame;
 
 /**
@@ -25,10 +28,17 @@ public class StartScreen implements Screen {
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.genMipMaps = true;
+        parameter.minFilter = Texture.TextureFilter.Linear.MipMapLinearNearest;
+        parameter.magFilter = Texture.TextureFilter.Linear;
 
+        parameter.size = 18;
+        BitmapFont font = generator.generateFont(parameter);
         game.batch.begin();
-        game.font.draw(game.batch, "A - Throw a star\n\nArrow Key UP - Jump\n\nP - Pause\n", 100, 150);
-        game.font.draw(game.batch, "\nPress 1 to start the game and save ninja from pirates!", 100, 100);
+        font.draw(game.batch, "A - Throw a star\n\nArrow Key UP - Jump\n\nP - Pause\n", 100, 150);
+        font.draw(game.batch, "\nPress 1 to start the game and save ninja from pirates!", 100, 100);
         game.batch.end();
 
         if (Gdx.input.isKeyPressed(8)) {
