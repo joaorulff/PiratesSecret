@@ -51,6 +51,9 @@ public class HUD implements Disposable{
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.genMipMaps = true;
+        parameter.minFilter = Texture.TextureFilter.Linear.MipMapLinearNearest;
+        parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.size = 18;
         BitmapFont font = generator.generateFont(parameter);
 

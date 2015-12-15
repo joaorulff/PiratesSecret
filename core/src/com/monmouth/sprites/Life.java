@@ -26,7 +26,9 @@ public class Life extends Actor {
         this.lifePositionX = x;
         this.lifePositionY = y;
 
+
     }
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

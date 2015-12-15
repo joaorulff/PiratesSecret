@@ -24,23 +24,24 @@ public class GameOverScreen implements Screen {
     static Label scoreLabel;
 
     private PirateGame game;
+    private Texture imgPirate;
     Label gameOverLabel;
     public GameOverScreen(PirateGame game) {
         this.game = game;
         this.viewport = new FitViewport(PirateGame.V_WIDTH, PirateGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
+        imgPirate = new Texture(Gdx.files.internal("large_pirate-flag.png"));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.genMipMaps = true;
         parameter.minFilter = Texture.TextureFilter.Linear.MipMapLinearNearest;
         parameter.magFilter = Texture.TextureFilter.Linear;
-
-        parameter.size = 18;
+        parameter.size = 50;
         BitmapFont font = generator.generateFont(parameter);
 
-        gameOverLabel = new Label("GAME OVER\nClick Anywhere to start a new game!", new Label.LabelStyle(font, Color.WHITE));
-        gameOverLabel.setPosition(10,240);
+        gameOverLabel = new Label("GAME OVER", new Label.LabelStyle(font, Color.BLACK));
+        gameOverLabel.setPosition(400-(gameOverLabel.getWidth()/2),240-(gameOverLabel.getHeight()/2));
 
         stage.addActor(gameOverLabel);
 
@@ -57,9 +58,12 @@ public class GameOverScreen implements Screen {
             game.setScreen(new PlayScreen(game));
             dispose();
         }
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(255, 255, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
+        game.batch.begin();
+        game.batch.draw(imgPirate,10,60);
+        game.batch.end();
     }
 
     @Override
