@@ -125,11 +125,11 @@ public class Ninja extends Sprite{
         ninjaBody = mainWorld.createBody(ninjaBodyDef);
 
         FixtureDef ninjaFixtureDef = new FixtureDef();
-        PolygonShape ninjaShape = new PolygonShape();
-        ninjaShape.setAsBox(12/PirateGame.PPM, 18/PirateGame.PPM);
+        CircleShape ninjaShape = new CircleShape();
+        ninjaShape.setRadius(12/PirateGame.PPM);
 
         PolygonShape sensorShape= new PolygonShape();
-        sensorShape.setAsBox(6/PirateGame.PPM, 1f/PirateGame.PPM, new Vector2(0,-18/PirateGame.PPM), 0);
+        sensorShape.setAsBox(6/PirateGame.PPM, 1f/PirateGame.PPM, new Vector2(0,-12/PirateGame.PPM), 0);
         FixtureDef sensorFixtureDef = new FixtureDef();
         sensorFixtureDef.shape = sensorShape;
         sensorFixtureDef.isSensor = true;
