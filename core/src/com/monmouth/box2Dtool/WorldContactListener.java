@@ -80,9 +80,7 @@ public class WorldContactListener implements ContactListener{
 
                 piratesToBeDeleted.add((Body)contact.getFixtureB().getBody());
             }
-            if(b == screen.CATEGORY_WORLD) {
-                isNinjaOnGround = true;
-            }
+
         }
         if(b == screen.CATEGORY_NINJA) {
             if(a == screen.CATEGORY_PIRATE) {
@@ -92,9 +90,18 @@ public class WorldContactListener implements ContactListener{
 
                 piratesToBeDeleted.add((Body)contact.getFixtureA().getBody());
             }
-            if(a == screen.CATEGORY_WORLD) {
+
+        }
+
+
+        if(a == screen.CATEGORY_SENSOR) {
+            if(b == screen.CATEGORY_WORLD)
                 isNinjaOnGround = true;
-            }
+        }
+        if(b == screen.CATEGORY_SENSOR) {
+            if(a == screen.CATEGORY_WORLD)
+                isNinjaOnGround = true;
+
         }
 
     }
@@ -108,11 +115,11 @@ public class WorldContactListener implements ContactListener{
         //Gdx.app.log("End Contact", "");
         Short a = contact.getFixtureA().getFilterData().categoryBits;
         Short b = contact.getFixtureB().getFilterData().categoryBits;
-        if(a == screen.CATEGORY_NINJA) {
+        if(a == screen.CATEGORY_SENSOR) {
             if(b == screen.CATEGORY_WORLD)
                 isNinjaOnGround = false;
         }
-        if(b == screen.CATEGORY_NINJA) {
+        if(b == screen.CATEGORY_SENSOR) {
             if(a == screen.CATEGORY_WORLD)
                 isNinjaOnGround = false;
 

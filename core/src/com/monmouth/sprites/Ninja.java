@@ -3,6 +3,7 @@ package com.monmouth.sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.monmouth.game.PirateGame;
@@ -21,7 +22,6 @@ public class Ninja extends Sprite{
 
     private World mainWorld;
     public Body ninjaBody;
-
     private TextureRegion idleNinja;
     private PlayScreen playScreen;
     //Animation
@@ -119,21 +119,27 @@ public class Ninja extends Sprite{
     public void defineNinja() {
 
         BodyDef ninjaBodyDef = new BodyDef();
-        ninjaBodyDef.position.set(50 / PirateGame.PPM, 50 / PirateGame.PPM);
+        ninjaBodyDef.position.set(100 / PirateGame.PPM, 100 / PirateGame.PPM);
         ninjaBodyDef.type = BodyDef.BodyType.DynamicBody;
 
         ninjaBody = mainWorld.createBody(ninjaBodyDef);
 
         FixtureDef ninjaFixtureDef = new FixtureDef();
-        CircleShape ninjaShape = new CircleShape();
-        ninjaShape.setRadius(12 / PirateGame.PPM);
+        PolygonShape ninjaShape = new PolygonShape();
+        ninjaShape.setAsBox(12/PirateGame.PPM, 18/PirateGame.PPM);
 
-
+        PolygonShape sensorShape= new PolygonShape();
+        sensorShape.setAsBox(6/PirateGame.PPM, 1f/PirateGame.PPM, new Vector2(0,-18/PirateGame.PPM), 0);
+        FixtureDef sensorFixtureDef = new FixtureDef();
+        sensorFixtureDef.shape = sensorShape;
+        sensorFixtureDef.isSensor = true;
+        sensorFixtureDef.filter.categoryBits = playScreen.CATEGORY_SENSOR;
+        sensorFixtureDef.filter.maskBits = playScreen.CATEGORY_WORLD;
         ninjaFixtureDef.shape = ninjaShape;
         ninjaFixtureDef.filter.categoryBits = playScreen.CATEGORY_NINJA;
         ninjaFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_WORLD|playScreen.CATEGORY_PIRATE);
         ninjaBody.createFixture(ninjaFixtureDef);
-
+        ninjaBody.createFixture(sensorFixtureDef);
 
     }
 }

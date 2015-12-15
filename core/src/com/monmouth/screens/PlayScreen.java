@@ -94,10 +94,11 @@ public class PlayScreen implements Screen {
     private Life life1;
     //Pirate
     //-private ArrayList<Pirate> pirates;
-    public final short CATEGORY_NINJA = 0x0001;  // 0000000000000001 in binary
-    public final short CATEGORY_PIRATE = 0x0002; // 0000000000000010 in binary
-    public final short CATEGORY_STAR = 0x0004; // 0000000000000100 in binary
-    public final short CATEGORY_WORLD = 0x0008; // 0000000000000100 in binary
+    public final short CATEGORY_NINJA = 0x0001;
+    public final short CATEGORY_PIRATE = 0x0002;
+    public final short CATEGORY_STAR = 0x0004;
+    public final short CATEGORY_WORLD = 0x0008;
+    public final short CATEGORY_SENSOR = 0x0016;
 
     public PlayScreen(PirateGame pirateGame) {
 
@@ -233,10 +234,11 @@ public class PlayScreen implements Screen {
                 doublejumped = false;
                 PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
             }
-            else if(this.ninja.ninjaBody.getLinearVelocity().y > 0 && !doublejumped) {
+            //double jump just uncomment!!!DOUBLE JUMP
+            /*else if(this.ninja.ninjaBody.getLinearVelocity().y > 0 && !doublejumped) {
                 this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 12f), this.ninja.ninjaBody.getWorldCenter(), true);
                 doublejumped = true;
-            }
+            }*/
 
         }
 
