@@ -86,6 +86,8 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("este");
+                game.setScreen(new InstructionScreen(game));
+                dispose();
             }
         });
 
