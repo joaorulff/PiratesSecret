@@ -40,7 +40,7 @@ public class PlayScreen implements Screen {
     private enum gameState {RUNNING, PAUSED, JUMPING, GAME_OVER};
     private gameState currentGameState;
     private boolean ninjaFell = false;
-
+    boolean doublejumped = false;
 
     private PirateGame pirateGame;
 
@@ -230,7 +230,12 @@ public class PlayScreen implements Screen {
 
             if(contactListener.isNinjaOnGround) {
                 this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 12f), this.ninja.ninjaBody.getWorldCenter(), true);
+                doublejumped = false;
                 PirateGame.assetManager.get("audio/sounds/pirateJump.wav", Sound.class).play();
+            }
+            else if(this.ninja.ninjaBody.getLinearVelocity().y > 0 && !doublejumped) {
+                this.ninja.ninjaBody.applyLinearImpulse(new Vector2(0, 12f), this.ninja.ninjaBody.getWorldCenter(), true);
+                doublejumped = true;
             }
 
         }
