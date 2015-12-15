@@ -10,29 +10,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.*;
 import com.monmouth.box2Dtool.Box2DCreator;
 import com.monmouth.box2Dtool.WorldContactListener;
 import com.monmouth.game.PirateGame;
 import com.monmouth.scenes.HUD;
-import com.monmouth.sprites.Life;
+import com.monmouth.actors.Life;
 import com.monmouth.sprites.Ninja;
 import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 
 public class PlayScreen implements Screen {
@@ -81,17 +74,18 @@ public class PlayScreen implements Screen {
     //Ninja
     private Ninja ninja;
 
-    //Temporary pirate
+    //pirates
     private ArrayList<Pirate> pirates;
+
+    //powerups
+    private ArrayList<com.monmouth.sprites.Life> lifes;
 
     //Music
     private Music gameMusic;
 
-
-
     //Star
     private ArrayList<Star> stars;
-    private Life life1;
+
     //Pirate
     //-private ArrayList<Pirate> pirates;
     public final short CATEGORY_NINJA = 0x0001;
@@ -99,6 +93,7 @@ public class PlayScreen implements Screen {
     public final short CATEGORY_STAR = 0x0004;
     public final short CATEGORY_WORLD = 0x0008;
     public final short CATEGORY_SENSOR = 0x0016;
+    public final short CATEGORY_LIFE = 0x0032;
 
     public PlayScreen(PirateGame pirateGame) {
 
@@ -136,6 +131,7 @@ public class PlayScreen implements Screen {
         this.ninja = new Ninja(this);
 
         this.pirates = new ArrayList<Pirate>();
+        this.lifes = new ArrayList<com.monmouth.sprites.Life>();
         this.stars = new ArrayList<Star>();
 
 
@@ -153,6 +149,11 @@ public class PlayScreen implements Screen {
             float x = Float.parseFloat(object.getProperties().get("x").toString());
             float y = Float.parseFloat(object.getProperties().get("y").toString());
             pirates.add(new Pirate(this, x/PirateGame.PPM, y/PirateGame.PPM));
+        }
+        for(MapObject object : map.getLayers().get(4).getObjects()) {
+            float x = Float.parseFloat(object.getProperties().get("x").toString());
+            float y = Float.parseFloat(object.getProperties().get("y").toString());
+            lifes.add(new com.monmouth.sprites.Life(this.world,this,x,y));
         }
 
     }
@@ -177,6 +178,7 @@ public class PlayScreen implements Screen {
         this.world.step(1/60f, 6, 2);
         //life1.update();
         ninja.update(deltaTime);
+
         for(Pirate aPirate : pirates) {
             if(!aPirate.isToBeDeleted())
                 aPirate.update(deltaTime);
@@ -218,6 +220,7 @@ public class PlayScreen implements Screen {
        //stem.out.println(ninja.ninjaBody.getPosition().y);
         if(hud.lives.size != 0)
             hud.updateLife();
+
         HUD.updateScore(1);
 
     }
