@@ -21,6 +21,7 @@ import com.monmouth.box2Dtool.WorldContactListener;
 import com.monmouth.game.PirateGame;
 import com.monmouth.scenes.HUD;
 import com.monmouth.actors.Life;
+import com.monmouth.sprites.LifeSprite;
 import com.monmouth.sprites.Ninja;
 import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
@@ -78,7 +79,7 @@ public class PlayScreen implements Screen {
     private ArrayList<Pirate> pirates;
 
     //powerups
-    private ArrayList<com.monmouth.sprites.Life> lifes;
+    private ArrayList<LifeSprite> lives;
 
     //Music
     private Music gameMusic;
@@ -131,7 +132,7 @@ public class PlayScreen implements Screen {
         this.ninja = new Ninja(this);
 
         this.pirates = new ArrayList<Pirate>();
-        this.lifes = new ArrayList<com.monmouth.sprites.Life>();
+        this.lives = new ArrayList<LifeSprite>();
         this.stars = new ArrayList<Star>();
 
 
@@ -153,7 +154,7 @@ public class PlayScreen implements Screen {
         for(MapObject object : map.getLayers().get(4).getObjects()) {
             float x = Float.parseFloat(object.getProperties().get("x").toString());
             float y = Float.parseFloat(object.getProperties().get("y").toString());
-            lifes.add(new com.monmouth.sprites.Life(this.world,this,x,y));
+            lives.add(new LifeSprite(this.world,this,x/PirateGame.PPM,(y)/PirateGame.PPM+0.4f));
         }
 
     }
@@ -176,7 +177,7 @@ public class PlayScreen implements Screen {
 
 
         this.world.step(1/60f, 6, 2);
-        //life1.update();
+
         ninja.update(deltaTime);
 
         for(Pirate aPirate : pirates) {
@@ -187,6 +188,7 @@ public class PlayScreen implements Screen {
             if(!aStar.isToBeDeleted())
                 aStar.update(deltaTime);
         }
+
 
 
 
@@ -208,8 +210,14 @@ public class PlayScreen implements Screen {
             Pirate aPirate = (Pirate)body.getUserData();
             pirates.remove(aPirate);
         }
+        for (Body body : contactListener.getLivesToBeDeled()) {
+            world.destroyBody(body);
+            LifeSprite aLife = (LifeSprite)body.getUserData();
+            lives.remove(aLife);
+        }
         contactListener.getPiratesToBeDeleted().clear();
         contactListener.getStarsToBeDeleted().clear();
+        contactListener.getLivesToBeDeled().clear();
         if(hud.lives.size == 0) {
             this.currentGameState = gameState.GAME_OVER;
         }
@@ -298,6 +306,10 @@ public class PlayScreen implements Screen {
         for(Star aStar : stars) {
             if(!aStar.isToBeDeleted())
                 aStar.draw(pirateGame.batch);
+        }
+        for(LifeSprite aLife : lives) {
+            if(!aLife.isToBeDeleted())
+                aLife.draw(pirateGame.batch);
         }
         ninja.draw(pirateGame.batch);
         pirateGame.batch.end();

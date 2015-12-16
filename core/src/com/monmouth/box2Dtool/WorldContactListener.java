@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.monmouth.screens.PlayScreen;
+import com.monmouth.sprites.LifeSprite;
 import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
 
+import javax.swing.plaf.basic.BasicPanelUI;
 import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 
@@ -17,6 +19,7 @@ public class WorldContactListener implements ContactListener{
     private PlayScreen screen;
     private Array<Body> starsToBeDeleted =  new Array<Body>();
     private Array<Body> piratesToBeDeleted = new Array<Body>();
+    private Array<Body> livesToBeDeled = new Array<Body>();
     public boolean isNinjaHittingPirate = false;
     public boolean isNinjaOnGround = true;
     public WorldContactListener(PlayScreen screen) {
@@ -80,6 +83,12 @@ public class WorldContactListener implements ContactListener{
 
                 piratesToBeDeleted.add((Body)contact.getFixtureB().getBody());
             }
+            if(b == screen.CATEGORY_LIFE) {
+                LifeSprite tempLife = (LifeSprite)contact.getFixtureB().getBody().getUserData();
+                tempLife.setToBeDeleted(true);
+
+                livesToBeDeled.add((Body)contact.getFixtureB().getBody());
+            }
 
         }
         if(b == screen.CATEGORY_NINJA) {
@@ -89,6 +98,12 @@ public class WorldContactListener implements ContactListener{
                 tempPirate.setToBeDeleted(true);
 
                 piratesToBeDeleted.add((Body)contact.getFixtureA().getBody());
+            }
+            if(a == screen.CATEGORY_LIFE) {
+                LifeSprite tempLife = (LifeSprite)contact.getFixtureA().getBody().getUserData();
+                tempLife.setToBeDeleted(true);
+
+                livesToBeDeled.add((Body)contact.getFixtureA().getBody());
             }
 
         }
@@ -108,6 +123,10 @@ public class WorldContactListener implements ContactListener{
 
     public Array<Body> getStarsToBeDeleted() {
         return starsToBeDeleted;
+    }
+
+    public Array<Body> getLivesToBeDeled() {
+        return livesToBeDeled;
     }
 
     @Override
