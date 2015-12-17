@@ -119,6 +119,7 @@ public class StartScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        startLabel.setTouchable(Touchable.disabled);
+        instructionLabel.setTouchable(Touchable.disabled);
     }
 }
