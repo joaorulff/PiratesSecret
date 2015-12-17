@@ -91,7 +91,13 @@ public class StartScreen implements Screen {
         aboutLabel.setPosition(500,200);
         aboutLabel.setTouchable(Touchable.enabled);
         aboutLabel.setBounds(500,200,aboutLabel.getWidth(),aboutLabel.getHeight());
-
+        aboutLabel.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new AboutScreen(game));
+                dispose();
+            }
+        });
         quitLabel = new Label("Quit", new Label.LabelStyle(font, Color.BLACK));
         quitLabel.setPosition(500, 150);
         quitLabel.setTouchable(Touchable.enabled);
