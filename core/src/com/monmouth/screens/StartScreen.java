@@ -24,10 +24,11 @@ public class StartScreen implements Screen {
     final PirateGame game;
     private Viewport viewport;
     private Stage stage;
-    private boolean changeToPlay = false;
     private boolean changeToInstruction = false;
     Label startLabel;
     Label instructionLabel;
+    Label aboutLabel;
+    Label quitLabel;
     private Texture imgNinja;
     public StartScreen(final PirateGame game) {
         this.game = game;
@@ -45,10 +46,6 @@ public class StartScreen implements Screen {
         game.batch.begin();
         game.batch.draw(imgNinja,10,10,300,470);
         game.batch.end();
-        if(changeToPlay) {
-            game.setScreen(new PlayScreen(game));
-            this.dispose();
-        }
 
     }
 
@@ -79,21 +76,36 @@ public class StartScreen implements Screen {
 
 
         instructionLabel = new Label("Instructions", new Label.LabelStyle(font, Color.BLACK));
-        instructionLabel.setPosition(500, 200);
+        instructionLabel.setPosition(500, 250);
         instructionLabel.setTouchable(Touchable.enabled);
-        instructionLabel.setBounds(500,200,instructionLabel.getWidth(),instructionLabel.getHeight());
+        instructionLabel.setBounds(500,250,instructionLabel.getWidth(),instructionLabel.getHeight());
         instructionLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("este");
                 game.setScreen(new InstructionScreen(game));
                 dispose();
             }
         });
 
+        aboutLabel = new Label("About", new Label.LabelStyle(font, Color.BLACK));
+        aboutLabel.setPosition(500,200);
+        aboutLabel.setTouchable(Touchable.enabled);
+        aboutLabel.setBounds(500,200,aboutLabel.getWidth(),aboutLabel.getHeight());
 
+        quitLabel = new Label("Quit", new Label.LabelStyle(font, Color.BLACK));
+        quitLabel.setPosition(500, 150);
+        quitLabel.setTouchable(Touchable.enabled);
+        quitLabel.setBounds(500,150,quitLabel.getWidth(),quitLabel.getHeight());
+        quitLabel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
         stage.addActor(startLabel);
         stage.addActor(instructionLabel);
+        stage.addActor(aboutLabel);
+        stage.addActor(quitLabel);
 
     }
 
@@ -119,6 +131,9 @@ public class StartScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        startLabel.setTouchable(Touchable.disabled);
+        instructionLabel.setTouchable(Touchable.disabled);
+        aboutLabel.setTouchable(Touchable.disabled);
+        quitLabel.setTouchable(Touchable.disabled);
     }
 }
