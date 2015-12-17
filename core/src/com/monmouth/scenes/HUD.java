@@ -31,8 +31,13 @@ public class HUD implements Disposable{
     private PlayScreen screen;
 
     static Label scoreLabel;
-    Label livesLabel;
-    Label pirateLabel;
+    public Label livesLabel;
+    public Label pirateLabel;
+
+    public Stage getStage() {
+        return stage;
+    }
+
     public Array<Life> lives;
 
     public HUD(SpriteBatch spriteBatch, PlayScreen screen ){

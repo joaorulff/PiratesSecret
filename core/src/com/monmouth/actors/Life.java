@@ -29,6 +29,13 @@ public class Life extends Actor {
 
     }
 
+    public float getLifePositionY() {
+        return lifePositionY;
+    }
+
+    public float getLifePositionX() {
+        return lifePositionX;
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

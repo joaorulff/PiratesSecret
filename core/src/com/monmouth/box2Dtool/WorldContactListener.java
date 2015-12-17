@@ -22,6 +22,7 @@ public class WorldContactListener implements ContactListener{
     private Array<Body> livesToBeDeled = new Array<Body>();
     public boolean isNinjaHittingPirate = false;
     public boolean isNinjaOnGround = true;
+    public boolean addLife = false;
     public WorldContactListener(PlayScreen screen) {
         this.screen = screen;
     }
@@ -86,7 +87,7 @@ public class WorldContactListener implements ContactListener{
             if(b == screen.CATEGORY_LIFE) {
                 LifeSprite tempLife = (LifeSprite)contact.getFixtureB().getBody().getUserData();
                 tempLife.setToBeDeleted(true);
-
+                addLife = true;
                 livesToBeDeled.add((Body)contact.getFixtureB().getBody());
             }
 
@@ -96,13 +97,12 @@ public class WorldContactListener implements ContactListener{
                 isNinjaHittingPirate = true;
                 Pirate tempPirate = (Pirate)contact.getFixtureA().getBody().getUserData();
                 tempPirate.setToBeDeleted(true);
-
                 piratesToBeDeleted.add((Body)contact.getFixtureA().getBody());
             }
             if(a == screen.CATEGORY_LIFE) {
                 LifeSprite tempLife = (LifeSprite)contact.getFixtureA().getBody().getUserData();
                 tempLife.setToBeDeleted(true);
-
+                addLife = true;
                 livesToBeDeled.add((Body)contact.getFixtureA().getBody());
             }
 
