@@ -1,16 +1,11 @@
 package com.monmouth.box2Dtool;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.monmouth.screens.PlayScreen;
 import com.monmouth.sprites.LifeSprite;
 import com.monmouth.sprites.Pirate;
 import com.monmouth.sprites.Star;
-
-import javax.swing.plaf.basic.BasicPanelUI;
-import javax.swing.plaf.synth.SynthTextAreaUI;
-import java.util.ArrayList;
 
 /**
  * Created by joaolucasrulffdacosta on 10/31/15.
@@ -23,6 +18,7 @@ public class WorldContactListener implements ContactListener{
     public boolean isNinjaHittingPirate = false;
     public boolean isNinjaOnGround = true;
     public boolean addLife = false;
+    public boolean goToFinishScreen = false;
     public WorldContactListener(PlayScreen screen) {
         this.screen = screen;
     }
@@ -90,7 +86,9 @@ public class WorldContactListener implements ContactListener{
                 addLife = true;
                 livesToBeDeled.add((Body)contact.getFixtureB().getBody());
             }
-
+            if(b == screen.CATEGORY_FINISH) {
+                goToFinishScreen = true;
+            }
         }
         if(b == screen.CATEGORY_NINJA) {
             if(a == screen.CATEGORY_PIRATE) {
@@ -105,15 +103,18 @@ public class WorldContactListener implements ContactListener{
                 addLife = true;
                 livesToBeDeled.add((Body)contact.getFixtureA().getBody());
             }
+            if(a == screen.CATEGORY_FINISH) {
+                goToFinishScreen = true;
+            }
 
         }
 
 
-        if(a == screen.CATEGORY_SENSOR) {
+        if(a == screen.CATEGORY_SENSORLIFE) {
             if(b == screen.CATEGORY_WORLD)
                 isNinjaOnGround = true;
         }
-        if(b == screen.CATEGORY_SENSOR) {
+        if(b == screen.CATEGORY_SENSORLIFE) {
             if(a == screen.CATEGORY_WORLD)
                 isNinjaOnGround = true;
 
@@ -134,11 +135,11 @@ public class WorldContactListener implements ContactListener{
         //Gdx.app.log("End Contact", "");
         Short a = contact.getFixtureA().getFilterData().categoryBits;
         Short b = contact.getFixtureB().getFilterData().categoryBits;
-        if(a == screen.CATEGORY_SENSOR) {
+        if(a == screen.CATEGORY_SENSORLIFE) {
             if(b == screen.CATEGORY_WORLD)
                 isNinjaOnGround = false;
         }
-        if(b == screen.CATEGORY_SENSOR) {
+        if(b == screen.CATEGORY_SENSORLIFE) {
             if(a == screen.CATEGORY_WORLD)
                 isNinjaOnGround = false;
 

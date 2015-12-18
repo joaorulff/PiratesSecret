@@ -93,8 +93,9 @@ public class PlayScreen implements Screen {
     public final short CATEGORY_PIRATE = 0x0002;
     public final short CATEGORY_STAR = 0x0004;
     public final short CATEGORY_WORLD = 0x0008;
-    public final short CATEGORY_SENSOR = 0x0016;
+    public final short CATEGORY_SENSORLIFE = 0x0016;
     public final short CATEGORY_LIFE = 0x0032;
+    public final short CATEGORY_FINISH = 0x0064;
 
     public PlayScreen(PirateGame pirateGame) {
 
@@ -156,6 +157,30 @@ public class PlayScreen implements Screen {
             float y = Float.parseFloat(object.getProperties().get("y").toString());
             lives.add(new LifeSprite(this.world,this,x/PirateGame.PPM,(y)/PirateGame.PPM+0.4f));
         }
+
+        //finish sensor
+        MapObject object = map.getLayers().get(6).getObjects().get(0);
+        float x = Float.parseFloat(object.getProperties().get("x").toString());
+        float y = Float.parseFloat(object.getProperties().get("y").toString());
+
+        BodyDef finishDef = new BodyDef();
+        finishDef.position.set(x/PirateGame.PPM+2,y/PirateGame.PPM+5);
+        finishDef.type = BodyDef.BodyType.DynamicBody;
+
+        Body finishSensor;
+        finishSensor = this.world.createBody(finishDef);
+
+        FixtureDef finishFixture = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(10/PirateGame.PPM, 30/PirateGame.PPM);
+        finishFixture.shape = shape;
+        //finishFixture.isSensor = true;
+        finishFixture.filter.categoryBits = this.CATEGORY_FINISH;
+        finishFixture.filter.maskBits = -1;
+
+        finishSensor.createFixture(finishFixture);
+
+
 
     }
 
@@ -252,6 +277,7 @@ public class PlayScreen implements Screen {
                 contactListener.addLife = false;
             }
         }
+
     }
 
     public void handleInput(float deltaTime){
@@ -338,8 +364,12 @@ public class PlayScreen implements Screen {
 
         pirateGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-
-
+        System.out.println(contactListener.goToFinishScreen);
+        if(contactListener.goToFinishScreen) {
+            pirateGame.setScreen(new GameOverScreen(pirateGame));
+            contactListener.goToFinishScreen = false;
+            dispose();
+        }
         if(currentGameState == gameState.GAME_OVER) {
             pirateGame.setScreen(new GameOverScreen(pirateGame));
 

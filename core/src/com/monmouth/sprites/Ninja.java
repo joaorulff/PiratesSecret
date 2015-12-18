@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.monmouth.game.PirateGame;
 import com.monmouth.screens.PlayScreen;
-import javafx.stage.Screen;
 
 /**
  * Created by joaolucasrulffdacosta on 10/30/15.
@@ -119,7 +118,7 @@ public class Ninja extends Sprite{
     public void defineNinja() {
 
         BodyDef ninjaBodyDef = new BodyDef();
-        ninjaBodyDef.position.set(100 / PirateGame.PPM, 100 / PirateGame.PPM);
+        ninjaBodyDef.position.set(100/PirateGame.PPM, 100 / PirateGame.PPM);
         ninjaBodyDef.type = BodyDef.BodyType.DynamicBody;
 
         ninjaBody = mainWorld.createBody(ninjaBodyDef);
@@ -133,11 +132,11 @@ public class Ninja extends Sprite{
         FixtureDef sensorFixtureDef = new FixtureDef();
         sensorFixtureDef.shape = sensorShape;
         sensorFixtureDef.isSensor = true;
-        sensorFixtureDef.filter.categoryBits = playScreen.CATEGORY_SENSOR;
+        sensorFixtureDef.filter.categoryBits = playScreen.CATEGORY_SENSORLIFE;
         sensorFixtureDef.filter.maskBits = playScreen.CATEGORY_WORLD;
         ninjaFixtureDef.shape = ninjaShape;
         ninjaFixtureDef.filter.categoryBits = playScreen.CATEGORY_NINJA;
-        ninjaFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_WORLD|playScreen.CATEGORY_PIRATE);
+        ninjaFixtureDef.filter.maskBits = (short) (playScreen.CATEGORY_WORLD|playScreen.CATEGORY_PIRATE | playScreen.CATEGORY_FINISH);
         ninjaBody.createFixture(ninjaFixtureDef);
         ninjaBody.createFixture(sensorFixtureDef);
 
