@@ -230,7 +230,7 @@ public class PlayScreen implements Screen {
             hud.updateLife();
 
         HUD.updateScore(1);
-        System.out.println("X = " + hud.lives.get(1).getLifePositionX() + "; Y = " + hud.livesLabel.getX());
+
         if(contactListener.addLife) {
             if(hud.lives.size <= 5) {
                 Life tempLife = new Life(hud.lives.get(hud.lives.size-1).getLifePositionX()+16, hud.livesLabel.getY() - 21);
@@ -239,16 +239,18 @@ public class PlayScreen implements Screen {
                 hud.getStage().addActor(tempLife);
                 contactListener.addLife = false;
             }
-            if(hud.lives.size > 5) {
+            if(hud.lives.size == 6 && contactListener.addLife) {
                 Life tempLife = new Life(hud.lives.get(0).getLifePositionX()-16, hud.livesLabel.getY() - 21);
-                if(hud.lives.size > 6) {
-                    tempLife.setPosition(hud.lives.peek().getLifePositionX() - 16, tempLife.getLifePositionY());
-                }
                 hud.lives.add(tempLife);
                 hud.getStage().addActor(tempLife);
                 contactListener.addLife = false;
             }
-
+            if(hud.lives.size > 6 && contactListener.addLife) {
+                Life tempLife = new Life(hud.lives.peek().getLifePositionX() - 16, hud.livesLabel.getY() - 21 );
+                hud.lives.add(tempLife);
+                hud.getStage().addActor(tempLife);
+                contactListener.addLife = false;
+            }
         }
     }
 
