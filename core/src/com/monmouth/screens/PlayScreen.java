@@ -67,7 +67,7 @@ public class PlayScreen implements Screen {
     private WorldContactListener contactListener;
 
     private HUD hud;
-    public Texture levelComplete = new Texture(Gdx.files.internal("testeninja.jpg"));
+    public Texture levelComplete = new Texture(Gdx.files.internal("ninja-on-white-background.jpg"));
 
     //Map variables
     private TmxMapLoader mapLoader;
