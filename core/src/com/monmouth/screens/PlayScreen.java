@@ -132,7 +132,7 @@ public class PlayScreen implements Screen {
         //Box2D Variables initialization
         this.world = new World(new Vector2(0,-20), true); //The vector stands for gravity.
 
-        this.box2DDR = new Box2DDebugRenderer();
+        //this.box2DDR = new Box2DDebugRenderer();
 
         //Box2DCreator
         new Box2DCreator(this);
@@ -372,7 +372,7 @@ public class PlayScreen implements Screen {
         mapRenderer.render();
 
         //Render box2d
-        box2DDR.render(this.world, this.gamecamera.combined);
+        //box2DDR.render(this.world, this.gamecamera.combined);
 
         pirateGame.batch.setProjectionMatrix(this.gamecamera.combined);
         pirateGame.batch.begin();
