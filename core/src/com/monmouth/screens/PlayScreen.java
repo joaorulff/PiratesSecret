@@ -3,6 +3,7 @@ package com.monmouth.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -71,7 +72,7 @@ public class PlayScreen implements Screen {
 
 
     //Temp Variables
-
+    private long changeScreenTime = 0;
     //Ninja
     private Ninja ninja;
 
@@ -96,6 +97,7 @@ public class PlayScreen implements Screen {
     public final short CATEGORY_SENSORLIFE = 0x0016;
     public final short CATEGORY_LIFE = 0x0032;
     public final short CATEGORY_FINISH = 0x0064;
+    public final short CATEGORY_LEVELUP = 0x0128;
 
     public PlayScreen(PirateGame pirateGame) {
 
@@ -157,6 +159,26 @@ public class PlayScreen implements Screen {
             float y = Float.parseFloat(object.getProperties().get("y").toString());
             lives.add(new LifeSprite(this.world,this,x/PirateGame.PPM,(y)/PirateGame.PPM+0.4f));
         }
+        for(MapObject object : map.getLayers().get(5).getObjects()) {
+            float x = Float.parseFloat(object.getProperties().get("x").toString());
+            float y = Float.parseFloat(object.getProperties().get("y").toString());
+            System.out.println(x + " " + y);
+            BodyDef finishDef = new BodyDef();
+            finishDef.position.set(x/PirateGame.PPM,y/PirateGame.PPM);
+            finishDef.type = BodyDef.BodyType.StaticBody;
+
+            Body finishSensor;
+            finishSensor = this.world.createBody(finishDef);
+
+            FixtureDef finishFixture = new FixtureDef();
+            PolygonShape shape = new PolygonShape();
+            shape.setAsBox(10/PirateGame.PPM, 100/PirateGame.PPM);
+            finishFixture.shape = shape;
+            finishFixture.filter.categoryBits = this.CATEGORY_LEVELUP;
+            finishFixture.filter.maskBits = -1;
+
+            finishSensor.createFixture(finishFixture);
+        }
 
         //finish sensor
         MapObject object = map.getLayers().get(6).getObjects().get(0);
@@ -164,7 +186,7 @@ public class PlayScreen implements Screen {
         float y = Float.parseFloat(object.getProperties().get("y").toString());
 
         BodyDef finishDef = new BodyDef();
-        finishDef.position.set(x/PirateGame.PPM+2,y/PirateGame.PPM+5);
+        finishDef.position.set(x/PirateGame.PPM+2,y/PirateGame.PPM);
         finishDef.type = BodyDef.BodyType.DynamicBody;
 
         Body finishSensor;
@@ -172,9 +194,9 @@ public class PlayScreen implements Screen {
 
         FixtureDef finishFixture = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(10/PirateGame.PPM, 30/PirateGame.PPM);
+        shape.setAsBox(10/PirateGame.PPM, 100/PirateGame.PPM);
         finishFixture.shape = shape;
-        finishFixture.isSensor = true;
+        //inishFixture.isSensor = true;
         finishFixture.filter.categoryBits = this.CATEGORY_FINISH;
         finishFixture.filter.maskBits = -1;
 
@@ -364,7 +386,17 @@ public class PlayScreen implements Screen {
 
         pirateGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        System.out.println(contactListener.goToFinishScreen);
+
+        if(contactListener.goToLevelUp) {
+            changeScreenTime = System.currentTimeMillis();
+            LevelUpScreen levelUp = new LevelUpScreen(pirateGame);
+            pirateGame.setScreen(levelUp);
+            if(((System.currentTimeMillis() - changeScreenTime)/1000) > 4) {
+                pirateGame.setScreen(this);
+                levelUp.dispose();
+            }
+
+        }
         if(contactListener.goToFinishScreen) {
             pirateGame.setScreen(new YouWonScreen(pirateGame));
             contactListener.goToFinishScreen = false;

@@ -19,6 +19,7 @@ public class WorldContactListener implements ContactListener{
     public boolean isNinjaOnGround = true;
     public boolean addLife = false;
     public boolean goToFinishScreen = false;
+    public boolean goToLevelUp = false;
     public WorldContactListener(PlayScreen screen) {
         this.screen = screen;
     }
@@ -89,6 +90,9 @@ public class WorldContactListener implements ContactListener{
             if(b == screen.CATEGORY_FINISH) {
                 goToFinishScreen = true;
             }
+            if(b == screen.CATEGORY_LEVELUP) {
+                goToLevelUp = true;
+            }
         }
         if(b == screen.CATEGORY_NINJA) {
             if(a == screen.CATEGORY_PIRATE) {
@@ -105,6 +109,9 @@ public class WorldContactListener implements ContactListener{
             }
             if(a == screen.CATEGORY_FINISH) {
                 goToFinishScreen = true;
+            }
+            if(a == screen.CATEGORY_LEVELUP) {
+                goToLevelUp = true;
             }
 
         }
