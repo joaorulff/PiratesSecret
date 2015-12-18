@@ -174,7 +174,7 @@ public class PlayScreen implements Screen {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(10/PirateGame.PPM, 30/PirateGame.PPM);
         finishFixture.shape = shape;
-        //finishFixture.isSensor = true;
+        finishFixture.isSensor = true;
         finishFixture.filter.categoryBits = this.CATEGORY_FINISH;
         finishFixture.filter.maskBits = -1;
 
@@ -366,7 +366,7 @@ public class PlayScreen implements Screen {
         hud.stage.draw();
         System.out.println(contactListener.goToFinishScreen);
         if(contactListener.goToFinishScreen) {
-            pirateGame.setScreen(new GameOverScreen(pirateGame));
+            pirateGame.setScreen(new YouWonScreen(pirateGame));
             contactListener.goToFinishScreen = false;
             dispose();
         }
