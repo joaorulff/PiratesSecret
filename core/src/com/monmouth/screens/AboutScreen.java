@@ -38,15 +38,15 @@ public class AboutScreen implements Screen {
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.size = 20;
         BitmapFont font = generator.generateFont(parameter);
-        objectivesLabel = new Label("Objectives", new Label.LabelStyle(font, Color.BLACK));
-        objectivesLabel.setPosition(80,450);
+        //objectivesLabel = new Label("Objectives", new Label.LabelStyle(font, Color.BLACK));
+        //objectivesLabel.setPosition(80,450);
         whoDevelopedLabel = new Label("Developers", new Label.LabelStyle(font, Color.BLACK));
         whoDevelopedLabel.setPosition(530, 450);
         developers = new Label("Joao Rulff\nMatheus Bernardo\nRicardo Sena\nVinicius Machado", new Label.LabelStyle(font, Color.BLACK));
         developers.setPosition(500,350);
         objectivesText = new Label("You are a ninja.\n\nYou know their\nsecret and they want\nyou captured.\n\nThe ninja has to\nrun for his life, and\ndefend himself\nfrom the pirates.\n\nGood luck!", new Label.LabelStyle(font, Color.BLACK));
         objectivesText.setPosition(70,250);
-        stage.addActor(objectivesLabel);
+        //stage.addActor(objectivesLabel);
         stage.addActor(whoDevelopedLabel);
         stage.addActor(objectivesText);
         stage.addActor(developers);

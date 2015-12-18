@@ -48,13 +48,13 @@ public class LevelUpHUD implements Disposable {
         parameter.genMipMaps = true;
         parameter.minFilter = Texture.TextureFilter.Linear.MipMapLinearNearest;
         parameter.magFilter = Texture.TextureFilter.Linear;
-        parameter.size = 50;
+        parameter.size = 40;
         BitmapFont font = generator.generateFont(parameter);
         Texture imgPirate = new Texture(Gdx.files.internal("ninja-on-white-background.jpg"));
         background = new Image(imgPirate);
         background.setPosition(0,0);
         background.setSize(800,480);
-        pirateLabel = new Label("LEVEL UP", new Label.LabelStyle(font, Color.BLACK));
+        pirateLabel = new Label("LEVEL UP!", new Label.LabelStyle(font, Color.BLACK));
         pirateLabel.setPosition(400-(pirateLabel.getWidth()/2),240-(pirateLabel.getHeight()/2));
 
         stage.addActor(background);

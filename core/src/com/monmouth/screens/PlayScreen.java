@@ -182,7 +182,7 @@ public class PlayScreen implements Screen {
             finishFixture.shape = shape;
             finishFixture.isSensor = true;
             finishFixture.filter.categoryBits = this.CATEGORY_LEVELUP;
-            finishFixture.filter.maskBits = -1;
+            finishFixture.filter.maskBits = (short) (this.CATEGORY_WORLD | this.CATEGORY_NINJA);
 
             finishSensor.createFixture(finishFixture);
         }
@@ -282,7 +282,10 @@ public class PlayScreen implements Screen {
        //stem.out.println(ninja.ninjaBody.getPosition().y);
         if(hud.lives.size != 0)
             hud.updateLife();
-
+        if(contactListener.increaseScore) {
+            HUD.updateScore(200);
+            contactListener.increaseScore = false;
+        }
         HUD.updateScore(1);
 
         if(contactListener.addLife) {
@@ -393,7 +396,7 @@ public class PlayScreen implements Screen {
             this.changeScreenTime = TimeUtils.millis();
             contactListener.goToLevelUp = false;
         }
-        if(TimeUtils.timeSinceMillis(changeScreenTime) < 4000) {
+        if(TimeUtils.timeSinceMillis(changeScreenTime) < 3000) {
             levelHUD.stage.draw();
             drawhud = false;
         }

@@ -20,6 +20,7 @@ public class WorldContactListener implements ContactListener{
     public boolean addLife = false;
     public boolean goToFinishScreen = false;
     public boolean goToLevelUp = false;
+    public boolean increaseScore = false;
     public WorldContactListener(PlayScreen screen) {
         this.screen = screen;
     }
@@ -45,14 +46,13 @@ public class WorldContactListener implements ContactListener{
 
         //CHECKING IF STAR IS COLLIDING.
         if(a == screen.CATEGORY_STAR) {
-            //System.out.println("star colliding!A");
+
             starsToBeDeleted.add((Body)contact.getFixtureA().getBody());
             Star tempStar = (Star) contact.getFixtureA().getBody().getUserData();
 
             tempStar.setToBeDeleted(true);
             if(b == screen.CATEGORY_PIRATE) {
-                System.out.println("Bateu no pirataB");
-
+                increaseScore = true;
                 Pirate tempPirate = (Pirate)contact.getFixtureB().getBody().getUserData();
                 tempPirate.setToBeDeleted(true);
 
@@ -66,7 +66,7 @@ public class WorldContactListener implements ContactListener{
             Star tempStar = (Star) contact.getFixtureB().getBody().getUserData();
             tempStar.setToBeDeleted(true);
             if(a == screen.CATEGORY_PIRATE) {
-                System.out.println("Bateu no pirataA");
+                increaseScore = true;
                 Pirate tempPirate = (Pirate)contact.getFixtureA().getBody().getUserData();
                 tempPirate.setToBeDeleted(true);
 

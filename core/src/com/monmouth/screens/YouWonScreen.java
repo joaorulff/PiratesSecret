@@ -28,18 +28,18 @@ public class YouWonScreen implements Screen {
         this.game = game;
         this.viewport = new FitViewport(PirateGame.V_WIDTH,PirateGame.V_HEIGHT,new OrthographicCamera());
         stage = new Stage(this.viewport,game.batch);
-        imgNinja = new Texture(Gdx.files.internal("Ninja_desk_vector_Clipart.png"));
+        imgNinja = new Texture(Gdx.files.internal("ninja.png"));
         imgNinja.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lastninja.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.genMipMaps = true;
         parameter.minFilter = Texture.TextureFilter.Linear.MipMapLinearNearest;
         parameter.magFilter = Texture.TextureFilter.Linear;
-        parameter.size = 50;
+        parameter.size = 40;
         BitmapFont font = generator.generateFont(parameter);
 
-        youWonLabel = new Label("YOU WON! NINJA ESCAPED!", new Label.LabelStyle(font, Color.BLACK));
-        youWonLabel.setPosition(400-(youWonLabel.getWidth()/2),240-(youWonLabel.getHeight()/2));
+        youWonLabel = new Label("YOU WON!\nNINJA ESCAPED!", new Label.LabelStyle(font, Color.BLACK));
+        youWonLabel.setPosition(300,240);
 
         stage.addActor(youWonLabel);
 
@@ -60,7 +60,7 @@ public class YouWonScreen implements Screen {
         }
         stage.draw();
         game.batch.begin();
-        game.batch.draw(imgNinja,0,10,380,350);
+        game.batch.draw(imgNinja,0,0,340,340);
         game.batch.end();
     }
 
