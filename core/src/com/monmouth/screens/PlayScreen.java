@@ -16,12 +16,15 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.*;
 import com.monmouth.box2Dtool.Box2DCreator;
 import com.monmouth.box2Dtool.WorldContactListener;
 import com.monmouth.game.PirateGame;
 import com.monmouth.scenes.HUD;
 import com.monmouth.actors.Life;
+import com.monmouth.scenes.LevelUpHUD;
 import com.monmouth.sprites.LifeSprite;
 import com.monmouth.sprites.Ninja;
 import com.monmouth.sprites.Pirate;
@@ -64,6 +67,7 @@ public class PlayScreen implements Screen {
     private WorldContactListener contactListener;
 
     private HUD hud;
+    public Texture levelComplete = new Texture(Gdx.files.internal("testeninja.jpg"));
 
     //Map variables
     private TmxMapLoader mapLoader;
@@ -72,7 +76,7 @@ public class PlayScreen implements Screen {
 
 
     //Temp Variables
-    private long changeScreenTime = 0;
+    public long changeScreenTime = 0;
     //Ninja
     private Ninja ninja;
 
@@ -84,6 +88,8 @@ public class PlayScreen implements Screen {
 
     //Music
     private Music gameMusic;
+    //levelup hud
+    private LevelUpHUD levelHUD;
 
     //Star
     private ArrayList<Star> stars;
@@ -116,7 +122,7 @@ public class PlayScreen implements Screen {
         gamecamera.position.set(gameViewPort.getWorldWidth()/2, gameViewPort.getWorldHeight()/2, 0);
 
         hud = new HUD(pirateGame.batch, this);
-
+        levelHUD = new LevelUpHUD(pirateGame.batch,this);
         //Map initialization
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("tileset.tmx");
@@ -162,7 +168,7 @@ public class PlayScreen implements Screen {
         for(MapObject object : map.getLayers().get(5).getObjects()) {
             float x = Float.parseFloat(object.getProperties().get("x").toString());
             float y = Float.parseFloat(object.getProperties().get("y").toString());
-            System.out.println(x + " " + y);
+
             BodyDef finishDef = new BodyDef();
             finishDef.position.set(x/PirateGame.PPM,y/PirateGame.PPM);
             finishDef.type = BodyDef.BodyType.StaticBody;
@@ -174,6 +180,7 @@ public class PlayScreen implements Screen {
             PolygonShape shape = new PolygonShape();
             shape.setAsBox(10/PirateGame.PPM, 100/PirateGame.PPM);
             finishFixture.shape = shape;
+            finishFixture.isSensor = true;
             finishFixture.filter.categoryBits = this.CATEGORY_LEVELUP;
             finishFixture.filter.maskBits = -1;
 
@@ -348,6 +355,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        boolean drawhud = true;
 
         this.handleInput(delta);
 
@@ -381,22 +389,23 @@ public class PlayScreen implements Screen {
                 aLife.draw(pirateGame.batch);
         }
         ninja.draw(pirateGame.batch);
+        if(contactListener.goToLevelUp) {
+            this.changeScreenTime = TimeUtils.millis();
+            contactListener.goToLevelUp = false;
+        }
+        if(TimeUtils.timeSinceMillis(changeScreenTime) < 4000) {
+            levelHUD.stage.draw();
+            drawhud = false;
+        }
         pirateGame.batch.end();
 
 
         pirateGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
 
-        if(contactListener.goToLevelUp) {
-            changeScreenTime = System.currentTimeMillis();
-            LevelUpScreen levelUp = new LevelUpScreen(pirateGame);
-            pirateGame.setScreen(levelUp);
-            if(((System.currentTimeMillis() - changeScreenTime)/1000) > 4) {
-                pirateGame.setScreen(this);
-                levelUp.dispose();
-            }
+        if(drawhud)
+            hud.stage.draw();
 
-        }
+
         if(contactListener.goToFinishScreen) {
             pirateGame.setScreen(new YouWonScreen(pirateGame));
             contactListener.goToFinishScreen = false;
